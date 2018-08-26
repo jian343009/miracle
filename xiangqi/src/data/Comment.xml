@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="data.Comment" table="Comment">
+        <id name="id" column="id" type="java.lang.Integer">
+            <generator class="native" />
+        </id>       
+        <property name="device" type="java.lang.Integer"/>
+		<property name="userAge" type="java.lang.String"/>		
+		<property name="praise" type="java.lang.Integer"/>
+		<property name="display" type="yes_no"/>
+		<property name="checked" type="yes_no"/>				
+		<property name="timeStr" type="java.lang.String"/>
+		<property name="channel" type="java.lang.String"/>
+		<property name="userMail" type="java.lang.String"/>
+		<property name="userName" type="java.lang.String"/>		
+		<property name="content" type="java.lang.String">
+		    <column name="content" length="60000"></column>
+		</property>
+		
+    </class>
+</hibernate-mapping>
+

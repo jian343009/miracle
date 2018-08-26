@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="data.Count" table="Count">
+        <id name="id" column="id" type="java.lang.Integer">
+            <generator class="native" />
+        </id>
+       
+         <property name="day" type="java.lang.Integer"/>
+		<property name="dayStr" type="java.lang.String"/>
+		<property name="open" type="java.lang.Integer"/>
+		<property name="newDevice" type="java.lang.Integer"/>
+		<property name="pay" type="java.lang.Integer"/>
+		<property name="newPay" type="java.lang.Integer"/>
+		<property name="totalPay" type="java.lang.Double"/>
+		<property name="aliPay" type="java.lang.Double"/>
+		<property name="wiiPay" type="java.lang.Double"/>
+		<property name="wxPay" type="java.lang.Double">
+		    <column name="wxPay" default="0"></column>
+		</property>
+		<property name="applePay" type="java.lang.Double">
+		    <column name="applePay" default="0"></column>
+		</property>
+		<property name="hwPay" type="java.lang.Double">
+		    <column name="hwPay" default="0"></column>
+		</property>
+		<property name="detail" type="java.lang.String">
+		    <column name="detail" length="60000"></column>
+		</property>
+		<property name="dataStr" type="java.lang.String">
+		    <column name="dataStr" length="60000"></column>
+		</property>
+		
+    </class>
+</hibernate-mapping>
+

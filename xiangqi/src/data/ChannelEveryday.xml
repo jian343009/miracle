@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="data">
+    <class name="ChannelEveryday" table="ChannelEveryday">
+        <id name="id" column="id" type="java.lang.Integer">
+            <generator class="native" />
+        </id>
+       
+        <property name="channel" type="java.lang.String"/>
+        <property name="day" type="java.lang.Integer"/>
+		<property name="dayStr" type="java.lang.String"/>
+		<property name="open" type="java.lang.Integer"/>
+		<property name="newDevice" type="java.lang.Integer"/>
+		<property name="pay" type="java.lang.Integer"/>
+		<property name="newPay" type="java.lang.Integer"/>
+		<property name="totalPay" type="java.lang.Double"/>
+		<property name="aliPay" type="java.lang.Double"/>
+		<property name="wiiPay" type="java.lang.Double"/>
+		<property name="wxPay" type="java.lang.Double">
+		    <column name="wxPay" default="0"></column>
+		</property>
+		<property name="applePay" type="java.lang.Double">
+		    <column name="applePay" default="0"></column>
+		</property>
+		<property name="hwPay" type="java.lang.Double">
+		    <column name="hwPay" default="0"></column>
+		</property>
+		<property name="yesterday" type="java.lang.Integer">
+		    <column name="yesterday" default="0"></column>
+		</property>
+		<property name="detail" type="java.lang.String">
+		    <column name="detail" default="''"></column>
+		</property>
+         
+    </class>
+</hibernate-mapping>
+

@@ -1,0 +1,104 @@
+Aug 21, 2018 4:15:05 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=f0ec1d15f5cddcb96a702717042fac65&lesson=5,content:
+Aug 21, 2018 4:15:06 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=f0ec1d15f5cddcb96a702717042fac65&lesson=5,length:5
+Aug 21, 2018 4:15:29 PM http.Manager messageReceived
+WARN: url:/hwsign,content:amount=12.00&applicationID=10769417&country=CN&currency=CNY&merchantId=900086000021670776&productDesc=解锁第3课&productName=象棋：解锁第3课&requestId=20180821041528720161053&sdkChannel=1&urlver=2
+Aug 21, 2018 4:15:29 PM http.Manager messageReceived
+WARN: url:/hwsign,length:88
+Aug 21, 2018 4:15:41 PM http.Manager messageReceived
+WARN: url:/hwsign,content:amount=12.00&applicationID=10769417&country=CN&currency=CNY&merchantId=900086000021670776&productDesc=解锁第4课&productName=象棋：解锁第4课&requestId=20180821041539903188028&sdkChannel=1&urlver=2
+Aug 21, 2018 4:15:41 PM http.Manager messageReceived
+WARN: url:/hwsign,length:88
+Aug 21, 2018 4:15:56 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=99e1f25f953f5c0f0a96b62720070933&lesson=2,content:
+Aug 21, 2018 4:15:56 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=99e1f25f953f5c0f0a96b62720070933&lesson=2,length:0
+Aug 21, 2018 4:16:10 PM http.Manager messageReceived
+WARN: url:/hwsign,content:amount=151.00&applicationID=10769417&country=CN&currency=CNY&merchantId=900086000021670776&productDesc=多课解锁&productName=象棋：解锁3,4,5,6,7,8,9,10,11,12,13,14,15,16课&requestId=20180821041609504193047&sdkChannel=1&urlver=2
+Aug 21, 2018 4:16:10 PM http.Manager messageReceived
+WARN: url:/hwsign,length:88
+Aug 21, 2018 4:16:29 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=6075e7bc2af3dc05e797e4d5368c2f3e&lesson=2,content:
+Aug 21, 2018 4:16:29 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=6075e7bc2af3dc05e797e4d5368c2f3e&lesson=2,length:5
+Aug 21, 2018 4:16:30 PM http.Manager messageReceived
+WARN: url:/hwsign,content:amount=151.00&applicationID=10769417&country=CN&currency=CNY&merchantId=900086000021670776&productDesc=多课解锁&productName=象棋：解锁3,4,5,6,7,8,9,10,11,12,13,14,15,16课&requestId=20180821041629899178278&sdkChannel=1&urlver=2
+Aug 21, 2018 4:16:30 PM http.Manager messageReceived
+WARN: url:/hwsign,length:88
+Aug 21, 2018 4:16:40 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=08a61e73bf5e330b1b7aaf825e6e374b&lesson=2,content:
+Aug 21, 2018 4:16:41 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=08a61e73bf5e330b1b7aaf825e6e374b&lesson=2,length:5
+Aug 21, 2018 4:16:42 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=6075e7bc2af3dc05e797e4d5368c2f3e&lesson=5,content:
+Aug 21, 2018 4:16:43 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=6075e7bc2af3dc05e797e4d5368c2f3e&lesson=5,length:5
+Aug 21, 2018 4:17:27 PM http.Manager messageReceived
+WARN: url:/hwsign,content:amount=151.00&applicationID=10769417&country=CN&currency=CNY&merchantId=900086000021670776&productDesc=多课解锁&productName=象棋：解锁3,4,5,6,7,8,9,10,11,12,13,14,15,16课&requestId=20180821041726584131376&sdkChannel=1&urlver=2
+Aug 21, 2018 4:17:27 PM http.Manager messageReceived
+WARN: url:/hwsign,length:88
+Aug 21, 2018 4:17:58 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=0ccd9957a2925ed328f98e9a18f13c2e&lesson=2,content:
+Aug 21, 2018 4:17:59 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=0ccd9957a2925ed328f98e9a18f13c2e&lesson=2,length:5
+Aug 21, 2018 4:18:08 PM http.Manager messageReceived
+WARN: url:/hwsign,content:amount=12.00&applicationID=10769417&country=CN&currency=CNY&merchantId=900086000021670776&productDesc=解锁第6课&productName=象棋：解锁第6课&requestId=20180821041807777125434&sdkChannel=1&urlver=2
+Aug 21, 2018 4:18:08 PM http.Manager messageReceived
+WARN: url:/hwsign,length:88
+Aug 21, 2018 4:19:07 PM http.Manager messageReceived
+WARN: url:/record,content:
+Aug 21, 2018 4:19:10 PM dao.Data fromMap
+WARN: [null,{"完成练习":319,"开始练习":715,"结束练习":326,"开始学习":466,"结束学习":135,"完成学习":193},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,{"完成学习":52}]转换JSONObject失败A JSONObject text must begin with '{' at character 1 of [null,{"完成练习":319,"开始练习":715,"结束练习":326,"开始学习":466,"结束学习":135,"完成学习":193},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,{"完成学习":52}]
+Aug 21, 2018 4:19:10 PM http.Manager messageReceived
+WARN: url:/record,length:212255
+Aug 21, 2018 4:19:18 PM http.Manager messageReceived
+WARN: url:/record,content:
+Aug 21, 2018 4:19:22 PM dao.Data fromMap
+WARN: [null,{"完成练习":319,"开始练习":715,"结束练习":326,"开始学习":466,"结束学习":135,"完成学习":193},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,{"完成学习":52}]转换JSONObject失败A JSONObject text must begin with '{' at character 1 of [null,{"完成练习":319,"开始练习":715,"结束练习":326,"开始学习":466,"结束学习":135,"完成学习":193},null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,{"完成学习":52}]
+Aug 21, 2018 4:19:22 PM http.Manager messageReceived
+WARN: url:/record,length:212308
+Aug 21, 2018 4:19:34 PM http.Manager messageReceived
+WARN: url:/manage_device,content:
+Aug 21, 2018 4:19:34 PM http.Manager messageReceived
+WARN: url:/manage_device,length:1573
+Aug 21, 2018 4:19:37 PM http.Manager messageReceived
+WARN: url:/manage_device,content:id=374385&imei=&base=10&page=1
+Aug 21, 2018 4:19:37 PM http.Manager messageReceived
+WARN: url:/manage_device,length:2612
+Aug 21, 2018 4:19:44 PM http.Manager messageReceived
+WARN: url:/updatedevice,content:id=374385&buyState=131068
+Aug 21, 2018 4:19:44 PM http.Manager messageReceived
+WARN: url:/updatedevice,length:17
+Aug 21, 2018 4:20:04 PM http.Manager messageReceived
+WARN: url:/manage_device,content:id=374385&imei=&base=10&page=1
+Aug 21, 2018 4:20:04 PM http.Manager messageReceived
+WARN: url:/manage_device,length:2617
+Aug 21, 2018 4:20:09 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=9839a14e0c474b06ad4af39d87c13e49&lesson=11,content:
+Aug 21, 2018 4:20:10 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=9839a14e0c474b06ad4af39d87c13e49&lesson=11,length:5
+Aug 21, 2018 4:20:26 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=9839a14e0c474b06ad4af39d87c13e49&lesson=12,content:
+Aug 21, 2018 4:20:26 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=9839a14e0c474b06ad4af39d87c13e49&lesson=12,length:4
+Aug 21, 2018 4:20:40 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=9839a14e0c474b06ad4af39d87c13e49&lesson=9,content:
+Aug 21, 2018 4:20:40 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=9839a14e0c474b06ad4af39d87c13e49&lesson=9,length:5
+Aug 21, 2018 4:21:00 PM http.Manager messageReceived
+WARN: url:/hwsign,content:amount=151.00&applicationID=10769417&country=CN&currency=CNY&merchantId=900086000021670776&productDesc=多课解锁&productName=象棋：解锁3,4,5,6,7,8,9,10,11,12,13,14,15,16课&requestId=20180821042101006117723&sdkChannel=1&urlver=2
+Aug 21, 2018 4:21:00 PM http.Manager messageReceived
+WARN: url:/hwsign,length:88
+Aug 21, 2018 4:21:04 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=9839a14e0c474b06ad4af39d87c13e49&lesson=2,content:
+Aug 21, 2018 4:21:04 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=9839a14e0c474b06ad4af39d87c13e49&lesson=2,length:5
+Aug 21, 2018 4:25:21 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=92dc776e8758e5005d285ff3a4485e54&lesson=2,content:
+Aug 21, 2018 4:25:21 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=92dc776e8758e5005d285ff3a4485e54&lesson=2,length:5
+Aug 21, 2018 4:27:32 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=7c11166d962bde34a24ace0f48f1c564&lesson=2,content:
+Aug 21, 2018 4:27:32 PM http.Manager messageReceived
+WARN: url:/getunlockkey?token=7c11166d962bde34a24ace0f48f1c564&lesson=2,length:5

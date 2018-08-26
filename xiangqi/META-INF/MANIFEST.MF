@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Sealed: true
+Main-Class: miracle.netty.test.HelloServer
+Class-Path: lib/netty-3.5.11.Final.jar
+

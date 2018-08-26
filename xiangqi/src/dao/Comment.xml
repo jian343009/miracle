@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Comments>
+	<Comment id="123" userName="用户名" userAge="5" time="2018-08-20 17:40:20">评论内容</Comment>
+	<Comment id="123" userName="用户名" userAge="5" time="2018-08-20">评论内容</Comment>
+	<Comment id="123" userName="用户名" userAge="5" time="2018-08-20">评论内容</Comment>
+</Comments>
