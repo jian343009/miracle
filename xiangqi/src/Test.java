@@ -19,7 +19,7 @@ public class Test {
 	 * @throws UnsupportedEncodingException 
 	 */
 	public static void main(String[] args) throws UnsupportedEncodingException {
-
+		log.info("hello git");
 	}
 	public static int get方位(int mySeat, int youSeat){
 		return (3 - youSeat + mySeat)%4;
