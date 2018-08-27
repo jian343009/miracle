@@ -1,33 +1,25 @@
+import java.io.File;
+import java.io.FileFilter;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.lang.text.StrBuilder;
 import org.jboss.logging.Logger;
 
-import dao.Dao;
-import data.Device;
 import main.Global;
-import main.ServerTimer;
-
 
 public class Test {
 	private static final Logger log = Logger.getLogger("Test");
-	private static final Map<Integer,Integer> map = new HashMap<Integer, Integer>();
+	private static final Map<Integer, Integer> praiseMap = new HashMap<Integer, Integer>();
 	/**
 	 * @param args
-	 * @throws UnsupportedEncodingException 
+	 * @throws UnsupportedEncodingException
 	 */
-	public static void main(String[] args) throws UnsupportedEncodingException {
-		log.info("hello git");
+	public static void main(String[] args) {
+		String str="aaa";
+		str = (str=="aaa"?"bbb":str);
+		boolean b=praiseMap.get(-1)>0;
+		log.info(b);
 	}
-	public static int get方位(int mySeat, int youSeat){
-		return (3 - youSeat + mySeat)%4;
-	}
-	public static int next(int code){
-		code ^= (code<<21);
-		code ^= (code>>21);
-		code ^= (code<<4);
-		return code;
-	}
+
 }

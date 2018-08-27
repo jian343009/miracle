@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="data.StepCount" table="StepCount">
+        <id name="id" column="id" type="java.lang.Integer">
+            <generator class="native" />
+        </id>
+       
+         <property name="day" type="java.lang.Integer"/>
+		<property name="dayStr" type="java.lang.String"/>
+		<property name="channel" type="java.lang.String">
+		    <column name="channel" default="''"></column>
+		</property>
+		<property name="detail" type="java.lang.String">
+		    <column name="detail" length="60000"></column>
+		</property>
+		
+    </class>
+</hibernate-mapping>
+

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="data">
+    <class name="AliPay" table="AliPay">
+        <id name="id" column="id" type="java.lang.Integer">
+            <generator class="native" />
+        </id>
+       
+         <property name="userName"  type="java.lang.String"/>
+         <property name="imei"  type="java.lang.String"/>
+         <property name="device"  type="java.lang.String"/>
+         <property name="lesson"  type="java.lang.Integer"/>
+         <property name="channel"  type="java.lang.String"/>
+         <property name="tradeStatus"  type="java.lang.String"/>
+         <property name="money"  type="java.lang.Double"/>
+         <property name="firstTime"  type="java.lang.String"/>
+         <property name="used"  type="java.lang.Integer"/>
+         <property name="content"  type="java.lang.String">
+             <column name="content" length="60000"></column>
+         </property>
+         
+    </class>
+</hibernate-mapping>
+

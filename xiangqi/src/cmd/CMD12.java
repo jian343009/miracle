@@ -29,25 +29,17 @@ public class CMD12 implements ICMD {
 		String channel = Global.readUTF(data);
 		int boardNum = data.readInt();
 		log.info("接收到的评论请求：" + name + ",davice = " + deviceID + ",boardNum=" + boardNum);
-		
+
 		if ("提交".equals(name)) {
 			String userName = Global.readUTF(data);
 			String userAge = Global.readUTF(data);
 			String userMail = Global.readUTF(data);
 			String userContent = Global.readUTF(data);
-			log.info("name="+userName+",age="+userAge +",联系方式="+userMail);
+			log.info("name=" + userName + ",age=" + userAge + ",联系方式=" + userMail);
 			Comment com = new Comment();
-			if("用户昵称".equals(userName)){
-				userName="ID:"+deviceID;
-			}
-			if("孩子年龄".equals(userAge)){
-				userAge="未填";
-			}else if(Global.getInt(userAge)>0){
-				userAge +="岁";
-			}
-			if("联系方式".equals(userMail)){
-				userMail="未填";
-			}		
+			userName = (userName == "用户昵称" ? "ID:" + deviceID : userName);
+			userMail = (userMail == "联系方式" ? "未填" : userMail);
+			userAge = (Global.getInt(userAge) == 0 ? "未填" :userAge + "岁");			
 			com.setTimeStr(ServerTimer.getFull());// 用于显示的时间
 			com.setDevice(deviceID);
 			com.setChannel(channel);
@@ -57,15 +49,12 @@ public class CMD12 implements ICMD {
 			com.setContent(userContent);
 			Dao.save(com);
 		} else if ("点赞".equals(name)) {
-			if (praiseMap.isEmpty()) {
-				praiseMap.put(-1, ServerTimer.distOfDay());
-			} else if (praiseMap.get(-1) != ServerTimer.distOfDay()) {
+			if (praiseMap.get(-1) == null || praiseMap.get(-1) != ServerTimer.distOfDay()) {
 				praiseMap.clear();
 				praiseMap.put(-1, ServerTimer.distOfDay());
 			}
 			int num = praiseMap.get(deviceID) == null ? 0 : praiseMap.get(deviceID);
-			log.info("点赞次数=" + num + ",id=" + boardNum);
-			if(num <= 4){
+			if (num <= 4) {
 				Comment comment = Dao.getCommentByID(boardNum);// 当是点赞请求时，boardNum值是DeviceID
 				if (comment != null) {
 					comment.setPraise(comment.getPraise() + 1);
@@ -76,22 +65,21 @@ public class CMD12 implements ICMD {
 					return buf;
 				}
 			} else {
-				log.info("你已经超过了次数，每天限5次。谢谢你的参与!");
 				buf.writeByte(2);
+				log.info("ID:" + deviceID + "多次点赞");
 				buf.writeBytes(Global.getUTF("你已经超过了次数，每天限5次。谢谢你的参与!"));
 				return buf;
 			}
 		}
 
 		List<Comment> list = Dao.getComments(deviceID, boardNum);
-		StringBuilder sb = new StringBuilder();
-		int step = 0;
+		StringBuilder sb = new StringBuilder();	int step = 0;	
 		for (Comment comm : list) {
 			if (comm.isDisplay()) {
 				sb.append("<Comment user=\"" + comm.getUserName() + "\" id=\"" + comm.getId() + "\" age=\""
 						+ comm.getUserAge() + "\" laud=\"" + comm.getPraise() + "\" time=\"" + comm.getTimeStr()
 						+ "\" >" + comm.getContent() + "</Comment>");
-			} else if (comm.getDevice() == deviceID & step == 0) {// 最多只能看到一条自己的不展示评论
+			} else if (comm.getDevice() == deviceID && step == 0) {// 最多只能看到一条自己的不展示评论
 				sb.append("<Comment user=\"" + comm.getUserName() + "\" id=\"" + comm.getId() + "\" age=\""
 						+ comm.getUserAge() + "\" laud=\"" + comm.getPraise() + "\" time=\"" + comm.getTimeStr()
 						+ "\" >" + comm.getContent() + "</Comment>");
@@ -99,7 +87,7 @@ public class CMD12 implements ICMD {
 			}
 		}
 		html = "<Comments>" + sb.toString() + "</Comments>";
-		buf.writeByte(1);		
+		buf.writeByte(1);
 		buf.writeBytes(Global.getUTF(html));
 		log.info(html);
 		return buf;

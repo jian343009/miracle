@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="data">
+    <class name="LjPay" table="LjPay">
+        <id name="id" column="id" type="java.lang.Integer">
+            <generator class="native" />
+        </id>
+       
+        <property name="orderID"  type="java.lang.String">
+             <column name="orderID" default="''"></column>
+         </property>
+         <property name="userName"  type="java.lang.String"/>
+         <property name="channel"  type="java.lang.String"/>
+         <property name="firstTime"  type="java.lang.String"/>
+         <property name="content"  type="java.lang.String">
+             <column name="content" length="60000"></column>
+         </property>
+         <property name="param"  type="java.lang.String">
+             <column name="param" default="''"></column>
+         </property>
+         <property name="used"  type="java.lang.Integer"/>
+         <property name="money"  type="java.lang.Integer">
+             <column name="money" default="0"></column>
+         </property>
+         
+    </class>
+</hibernate-mapping>
+

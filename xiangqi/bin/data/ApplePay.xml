@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="data.ApplePay" table="ApplePay">
+        <id name="id" column="id" type="java.lang.Integer">
+            <generator class="native" />
+        </id>
+       
+         <property name="identifier" type="java.lang.String"/>
+         <property name="productIdentifier"  type="java.lang.String"/>
+         <property name="date"  type="java.lang.String"/>
+         <property name="environment"  type="java.lang.String"/>
+         <property name="receipt"  type="java.lang.String" length="60000"/>
+         <property name="result"  type="java.lang.String" length="60000"/>
+         <property name="original"  type="java.lang.String"/>
+         <property name="product_id"  type="java.lang.String"/>
+         <property name="used"  type="java.lang.Integer"/>
+         <property name="device"  type="java.lang.String" length="60000"/>
+         <property name="firstTime"  type="java.lang.String"/>
+         <property name="lastTime"  type="java.lang.String"/>
+         <property name="lesson" type="java.lang.Integer">
+             <column name="lesson" default="0"></column>
+         </property>
+         <property name="total" type="java.lang.Integer">
+             <column name="total" default="0"></column>
+         </property>
+         
+    </class>
+</hibernate-mapping>
+
