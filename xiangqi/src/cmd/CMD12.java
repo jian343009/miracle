@@ -29,17 +29,29 @@ public class CMD12 implements ICMD {
 		String channel = Global.readUTF(data);
 		int boardNum = data.readInt();
 		log.info("接收到的评论请求：" + name + ",davice = " + deviceID + ",boardNum=" + boardNum);
-
+		if (!"获取".equals(name)) {
+			Device device = Dao.getDeviceExist(deviceID, "");
+			if (device != null && device.getBuy() > 0) {
+				buf.writeByte(2);
+				if ("提交".equals(name)) {
+					buf.writeBytes(Global.getUTF("您还未购买任何课程，不能评论。"));
+				} else if ("点赞".equals(name)) {
+					buf.writeBytes(Global.getUTF("您还未购买任何课程，不能点赞。"));
+				}
+				return buf;
+			}
+		}
 		if ("提交".equals(name)) {
+
 			String userName = Global.readUTF(data);
 			String userAge = Global.readUTF(data);
 			String userMail = Global.readUTF(data);
 			String userContent = Global.readUTF(data);
 			log.info("name=" + userName + ",age=" + userAge + ",联系方式=" + userMail);
 			Comment com = new Comment();
-			userName = (userName == "用户昵称" ? "ID:" + deviceID : userName);
-			userMail = (userMail == "联系方式" ? "未填" : userMail);
-			userAge = (Global.getInt(userAge) == 0 ? "未填" :userAge + "岁");			
+			userName = ("用户昵称".equals(userName) ? "ID:" + deviceID : userName);
+			userMail = ("联系方式".equals(userMail) ? "未填" : userMail);
+			userAge = (Global.getInt(userAge) == 0 ? "未填" : userAge + "岁");
 			com.setTimeStr(ServerTimer.getFull());// 用于显示的时间
 			com.setDevice(deviceID);
 			com.setChannel(channel);
@@ -73,7 +85,8 @@ public class CMD12 implements ICMD {
 		}
 
 		List<Comment> list = Dao.getComments(deviceID, boardNum);
-		StringBuilder sb = new StringBuilder();	int step = 0;	
+		StringBuilder sb = new StringBuilder();
+		int step = 0;
 		for (Comment comm : list) {
 			if (comm.isDisplay()) {
 				sb.append("<Comment user=\"" + comm.getUserName() + "\" id=\"" + comm.getId() + "\" age=\""
@@ -92,5 +105,4 @@ public class CMD12 implements ICMD {
 		log.info(html);
 		return buf;
 	}
-
 }
