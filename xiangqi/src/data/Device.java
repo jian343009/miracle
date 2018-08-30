@@ -33,7 +33,8 @@ public class Device {
 	private String mobile = "";
 	private int state = 0;//0.空闲 1.团购 2.众筹
 	private String token="";
-	private int unlockKey=0;	
+	private int unlockKey=0;
+	private String reward = "";//记录红包信息，json
 	
 	public int getId() {
 		return id;
@@ -162,6 +163,12 @@ public class Device {
 		this.unlockKey = unlockKey;
 	}
 
+	public String getReward() {
+		return reward;
+	}
+	public void setReward(String reward) {
+		this.reward = reward;
+	}
 	@Override
 	public String toString() {
 		return this.id+"#"+this.imei;

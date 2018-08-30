@@ -16,16 +16,17 @@ public class Html_comment extends Html {
 			List<Comment> list = Dao.get审核Comment(false);
 			StringBuilder sb = new StringBuilder();
 			for(Comment co:list){
-				sb.append("<tr>")
-				.append("<th>").append(co.getId()).append("</th>")
-				.append("<th>").append(co.getUserName()).append("</th>")
-				.append("<th>").append(co.getTimeStr()).append("</th>")
-				.append("<th>").append(co.getUserAge()).append("</th>")
-				.append("<th>").append(co.getContent()).append("</th>")
-				.append("<th><label id='").append(co.getId()).append("'>待审核</label></th>")
-				.append("<th><label id='").append(co.getId()).append("rrtrue' onclick='check(id)' style=\"color :green\">公开</label></th>")
-				.append("<th><label id='").append(co.getId()).append("rrfalse' onclick='check(id)' style=\"color :red\">不公开</label></th>")
-				.append("<tr>");
+				sb.append("<tr>"+
+					"<th>"+co.getId()+"</th>"+
+					"<th>"+co.getUserName()+"</th>"+
+					"<th>"+co.getTimeStr()+"</th>"+
+					"<th>"+co.getUserAge()+"</th>"+
+					"<th>"+co.getContent()+"</th>"+
+					"<th><label id='"+co.getId()+"'>待审核</label></th>"+
+					"<th><label id='"+co.getId()+"rrtrue' onclick='check(id)' style=\"color :green\">公开</label></th>"+
+					"<th><label id='"+co.getId()+"rrfalse' onclick='check(id)' style=\"color :red\">不公开</label></th>"+
+					"<th><label id='"+co.getId()+"rrdelete' onclick='check(id)' style=\"color :black\">删除</label></th>"+
+					"<tr>");
 			};
 			
 			String body="<script type=\"text/javascript\">"+
@@ -35,6 +36,7 @@ public class Html_comment extends Html {
 			           "$(\"#\" + arr[1]).text(arr[0]);"+
 			           "$(\"#\" + arr[1] + \"rrtrue\").remove();"+
 			           "$(\"#\" + arr[1] + \"rrfalse\").remove();"+
+			           "$(\"#\" + arr[1] + \"rrdelete\").remove();"+
 			        "} );}</script>";
 			body +="<div align=\"center\" data-role=\"collapsible\">"+
 		              "<h3 align=\"center\">评论审核</h3>" +
@@ -44,11 +46,12 @@ public class Html_comment extends Html {
 		            "<th>id</th>"+
 		            "<th>用户名</th>"+
 		            "<th>时间</th>"+
-		           " <th>年龄</th>"+
+		            " <th>年龄</th>"+
 		            "<th width=\"360\">评论</th>"+
-		           " <th>审核结果</th>"+
+		            " <th>审核结果</th>"+
 		            "<th>公开</th>"+
 		            "<th>不公开</th>"+
+		            "<th>删除</th>"+
 		        "</tr>"+
 		        "</thead>"+
 		        "<tbody>";
@@ -65,10 +68,13 @@ public class Html_comment extends Html {
 					com.setDisplay(true);
 					Dao.save(com);
 					return "已公开&"+id;				
-				}else{				
+				}else if("false".equals(con[1])){				
 					com.setDisplay(false);
 					Dao.save(com);
 					return "不公开&"+id;
+				}else if("delete".equals(con[1])){
+					Dao.delete(com);
+					return "已删除&"+id;
 				}
 			}else{
 				return "没找到&" + id;

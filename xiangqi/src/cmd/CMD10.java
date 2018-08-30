@@ -21,14 +21,12 @@ import data.*;
 
 public class CMD10 implements ICMD {
 	private static final Logger log = Logger.getLogger(CMD10.class.getName());
-	
+
 	@Override
 	public ChannelBuffer getBytes(int cmd, ChannelBuffer data) {
 		String name = Global.readUTF(data);
-		
 		String content = BaseData.getContent(name);
 		if ("配置信息".equals(name)) {
-			log.info("正在获取配置信息----------------------");
 			content = this.getXMLcontent(content, data);
 		}
 		ChannelBuffer buf = ChannelBuffers.dynamicBuffer();
@@ -36,8 +34,16 @@ public class CMD10 implements ICMD {
 		buf.writeBytes(Global.getUTF(content));
 		return buf;
 	}
+
+	/**
+	 * 以下方法都是在改配置文件，加密用。
+	 */
 	private String getXMLcontent(String content, ChannelBuffer data) {
 		Document doc = Global.xmlParser(content);// 解析content为可读文档
+		if (doc.getElementsByTagName("lesson").getLength() == 0) {
+			log.warning("");
+			return "";
+		}
 		String token = "";
 		int unlocky = 0;
 		Device device = null;
@@ -48,8 +54,18 @@ public class CMD10 implements ICMD {
 				device = Dao.getDevice(0, imei, "CMD10");
 			}
 		}
-		if (device != null) {
-			if (device.getToken()==null || device.getToken().isEmpty()) {
+		if (device == null) {	/* 没有imi就生成一个token，通过channel信息带到客户端。 */
+			token = Global.md5(ServerTimer.getFullWithS() + Math.random());
+			unlocky = getUnlockyByToken(token);
+			log.info("这是无imei的情况----token = " + token + "----unlocky = " + unlocky);
+			NodeList channels = doc.getElementsByTagName("channel").item(0).getChildNodes();
+			for (int i = 0; i < channels.getLength(); i++) {				
+				Element e = (Element) channels.item(i);
+				String Channelname = e.getAttribute("info") + "#" + token;
+				e.setAttribute("info", Channelname);		
+			}
+		} else {
+			if (device.getToken() == null || device.getToken().isEmpty()) {
 				token = Global.md5(device.getId() + device.getImei() + device.getFirstTime() + Math.random());
 				device.setToken(token);
 			} else {// 这是有token的情况
@@ -59,58 +75,34 @@ public class CMD10 implements ICMD {
 			device.setUnlockKey(unlocky);
 			Dao.save(device);// 保存
 			log.info("这是有imei的情况----token = " + token + "----unlocky = " + unlocky);
-		}else {
-			token = Global.md5(ServerTimer.getFullWithS() + Math.random());
-			unlocky = getUnlockyByToken(token);
-			this.changeXMLChannel(doc, token);
-			log.info("这是无imei的情况----token = " + token + "----unlocky = " + unlocky);
-	 	} // Dao.getDevice必然会得到一个device
-		return this.changeXMLCode(doc, token, unlocky);
-	}
-
-	private String changeXMLCode(Document doc, String token, int unlocky) {
-		if (doc != null && !token.isEmpty() && unlocky > 0) {
-			NodeList lessons = doc.getElementsByTagName("lesson");
-			for (int i = 0; i < lessons.getLength(); i++) {
-				Element e = (Element) lessons.item(i);
-				int lesson = Global.getInt(e.getAttribute("id"));
-				e.setAttribute("code", "" + next(unlocky, lesson));
-				String urlValue = this.changeUrl("url", token, lesson, e);
-				this.changeUrl("urlHW", token, lesson, e);
-				this.changeUrl("urlTV", token, lesson, e);
-				//log.info("lesson Url = " + urlValue + "-----------这课的code = " + next(unlocky, lesson));
-			}
+		}// Dao.getDevice必然会得到一个device
+		/* 改url*/
+		NodeList lessons = doc.getElementsByTagName("lesson");
+		for (int i = 0; i < lessons.getLength(); i++) {
+			Element e = (Element) lessons.item(i);
+			int lesson = Global.getInt(e.getAttribute("id"));
+			e.setAttribute("code", "" + next(unlocky, lesson));
+			this.changeUrl("url", token, lesson, e);
+			this.changeUrl("urlHW", token, lesson, e);
+			this.changeUrl("urlTV", token, lesson, e);
 		}
 		String outxml = null;
 		try {// Document 转回 String
 			outxml = this.docmentToString(doc);
 		} catch (TransformerException e) {
-			log.info("xml回写出错：" + e.getMessage());
-		}
-		//log.info("outxml = " + outxml);
+			log.warning("xml回写出错：" + e.getMessage());
+		} // log.info("outxml = " + outxml);
 		return outxml;
 	}
 
-	// 改文档的channel信息
-	private void changeXMLChannel(Document doc, String token) {
-		if (doc != null && !token.isEmpty()) {
-			NodeList channels = doc.getElementsByTagName("channel").item(0).getChildNodes();
-			for (int i = 0; i < channels.getLength(); i++) {
-				if (channels.item(i).getNodeType() == Node.ELEMENT_NODE) {
-					Element e = (Element) channels.item(i);
-					String Channelname = e.getAttribute("info") + "#" + token;
-					e.setAttribute("info", Channelname);
-				}
-			}
+	private void changeUrl(String url, String token, int lesson, Element e) {
+		if (url.isEmpty() || !e.hasAttribute(url)) {// 防止不同配置文件url不同而报错
+			return;
 		}
-	}
-
-	private String changeUrl(String url, String token, int lesson, Element e) {
 		String urlValue = e.getAttribute(url);
 		int cut = urlValue.lastIndexOf('/');
-		urlValue = urlValue.substring(0, cut) + "/down.php?token=" + token + "&lesson=" + lesson;
+		urlValue = urlValue.substring(0, cut) + "/down2.php?token=" + token + "&lesson=" + lesson;
 		e.setAttribute(url, urlValue);// 关键执行步骤
-		return urlValue;
 	}
 
 	public String docmentToString(Document doc) throws TransformerException {
@@ -122,6 +114,9 @@ public class CMD10 implements ICMD {
 		return bos.toString();
 	}
 
+	/**
+	 * 下面都是公开方法，unlocky的统一算法
+	 */
 	public static int next(int code, int count) {
 		for (int i = 0; i < count; i++) {
 			code ^= (code << 20);
@@ -134,7 +129,7 @@ public class CMD10 implements ICMD {
 
 	public static int getUnlockyByToken(String token) {
 		int code = 0;
-		if(token == null){
+		if (token == null) {
 			return code;
 		}
 		for (int i = 0; i < token.length(); i++) {

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import cmd.CMD11;
 import main.*;
 import dao.Dao;
+import dao.Data;
 import data.*;
 
 public class Html_wxpay extends Html {
@@ -96,6 +97,12 @@ public class Html_wxpay extends Html {
 					Dao.save(ce);
 					log.info("lesson:"+lesson);
 					log.info("total:"+total);
+					Data dat = Data.fromMap(wd.getReward());
+					for(int les:new int[]{1,2}){
+						if("未使用".equals(dat.get(les).get("状态").asString())){
+							dat.getMap(les).put("状态", "已使用");		}
+					}					
+					wd.setReward(dat.toString());
 					if(lesson ==0){
 						wd.setLastDay(ServerTimer.distOfDay());
 						wd.setLastTime(ServerTimer.getFull());

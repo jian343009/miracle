@@ -10,7 +10,7 @@
        	<!-- 测试 -->
         <property name="hibernate.connection.url">jdbc:mysql://rds1d47eu647k5j8pa7o.mysql.rds.aliyuncs.com/test_xiangqi</property>
         
- 	  	<!-- 正式   -->   
+ 	  	<!-- 正式  记得改CMD10和111行的url -->   
         <!-- <property name="hibernate.connection.url">jdbc:mysql://rdsavq7n2avq7n2.mysql.rds.aliyuncs.com/miracle_xiangqi</property>
          -->
         <property name="hibernate.connection.password">miracle</property>

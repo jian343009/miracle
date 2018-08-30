@@ -10,6 +10,7 @@ import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 
 import dao.Dao;
+import dao.Data;
 import data.*;
 
 public class CMD204 implements ICMD {
@@ -126,6 +127,12 @@ public class CMD204 implements ICMD {
 					ce.setTotalPay(ce.getTotalPay() + money);
 					ce.setApplePay(ce.getApplePay() + money);
 					Dao.save(ce);
+					Data dat = Data.fromMap(device.getReward());
+					for(int les:new int[]{1,2}){
+						if("未使用".equals(dat.get(les).get("状态").asString()))
+							dat.getMap(les).put("状态", "已使用");
+					}
+					device.setReward(dat.toString());
 					if(lesson ==0){
 						device.setBuyState(device.getBuyState() | total);
 						device.setBuy(device.getBuy() +1);

@@ -1,25 +1,33 @@
-import java.io.File;
-import java.io.FileFilter;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.jboss.logging.Logger;
+import java.util.logging.Logger;
 
-import main.Global;
+
 
 public class Test {
-	private static final Logger log = Logger.getLogger("Test");
-	private static final Map<Integer, Integer> praiseMap = new HashMap<Integer, Integer>();
+	private static final Logger log = Logger.getLogger(Test.class.getName()+"aqw");
+	private static final Map<Integer, String> comMap = new HashMap<Integer, String>();
+	static List<Integer> list = new ArrayList<Integer>();
 	/**
 	 * @param args
 	 * @throws UnsupportedEncodingException
 	 */
 	public static void main(String[] args) {
-		String str="aaa";
-		str = (str=="aaa"?"bbb":str);
-		boolean b=praiseMap.get(-1)>0;
-		log.info(b);
+		for (int i = 0; i < 1000; i++) {
+			if(!comMap.containsKey(i)){
+				list.add(i);
+				if(list.size()>1){
+					int j = list.remove(0);					
+					comMap.remove(j);
+				}
+			}			
+			comMap.put(i, "aa");			
+		}
+		log.info(comMap.size()+"");
+		log.info(comMap.toString());
 	}
 
 }

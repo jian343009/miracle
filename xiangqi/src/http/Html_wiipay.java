@@ -113,7 +113,12 @@ public class Html_wiipay implements IHtml{
 					ce.setTotalPay(ce.getTotalPay() + money);
 					ce.setWiiPay(ce.getWiiPay() + money);
 					Dao.save(ce);
-					
+					Data dat = Data.fromMap(wd.getReward());
+					for(int les:new int[]{1,2}){
+						if("未使用".equals(dat.get(les).get("状态").asString())){
+							dat.getMap(les).put("状态", "已使用");		}
+					}					
+					wd.setReward(dat.toString());
 					wd.setLastDay(ServerTimer.distOfDay());
 					wd.setLastTime(ServerTimer.getFull());
 					wd.setBuyState(wd.getBuyState() | pow);
