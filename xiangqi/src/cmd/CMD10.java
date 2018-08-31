@@ -54,15 +54,18 @@ public class CMD10 implements ICMD {
 				device = Dao.getDevice(0, imei, "CMD10");
 			}
 		}
-		if (device == null) {	/* 没有imi就生成一个token，通过channel信息带到客户端。 */
+		NodeList lessons = doc.getElementsByTagName("lesson");
+		if (device == null) { /* 没有imi就生成一个token，通过channel信息带到客户端。 */
 			token = Global.md5(ServerTimer.getFullWithS() + Math.random());
 			unlocky = getUnlockyByToken(token);
 			log.info("这是无imei的情况----token = " + token + "----unlocky = " + unlocky);
 			NodeList channels = doc.getElementsByTagName("channel").item(0).getChildNodes();
-			for (int i = 0; i < channels.getLength(); i++) {				
+			for (int i = 0; i < channels.getLength(); i++) {
+				if(channels.item(i).getNodeType()!=Node.ELEMENT_NODE){
+					continue;//子节点可能为空。
+				}
 				Element e = (Element) channels.item(i);
-				String Channelname = e.getAttribute("info") + "#" + token;
-				e.setAttribute("info", Channelname);		
+				e.setAttribute("info", e.getAttribute("info").concat("#"+token));
 			}
 		} else {
 			if (device.getToken() == null || device.getToken().isEmpty()) {
@@ -71,13 +74,22 @@ public class CMD10 implements ICMD {
 			} else {// 这是有token的情况
 				token = device.getToken();
 			}
+			if (device.getId() % 2 == 1) {// 将奇数用户的价格改为18元
+				for (int i = 0; i < lessons.getLength(); i++) {
+					Element e = (Element) lessons.item(i);
+					e.setAttribute("Amoney", "18");
+					e.setAttribute("Bmoney", "18");
+					for (String str : new String[] { "buyinfoA", "buyinfoB", "buyinfoC" }) {
+						e.setAttribute(str, e.getAttribute(str).replace("花12元", "花18元"));
+					}
+				}
+			}
 			unlocky = Global.getRandom(99999);
 			device.setUnlockKey(unlocky);
 			Dao.save(device);// 保存
 			log.info("这是有imei的情况----token = " + token + "----unlocky = " + unlocky);
-		}// Dao.getDevice必然会得到一个device
-		/* 改url*/
-		NodeList lessons = doc.getElementsByTagName("lesson");
+		} // Dao.getDevice必然会得到一个device
+		/* 改url */
 		for (int i = 0; i < lessons.getLength(); i++) {
 			Element e = (Element) lessons.item(i);
 			int lesson = Global.getInt(e.getAttribute("id"));
@@ -91,7 +103,8 @@ public class CMD10 implements ICMD {
 			outxml = this.docmentToString(doc);
 		} catch (TransformerException e) {
 			log.warning("xml回写出错：" + e.getMessage());
-		} // log.info("outxml = " + outxml);
+		}
+		//log.info("outxml = " + outxml);
 		return outxml;
 	}
 
@@ -101,7 +114,7 @@ public class CMD10 implements ICMD {
 		}
 		String urlValue = e.getAttribute(url);
 		int cut = urlValue.lastIndexOf('/');
-		urlValue = urlValue.substring(0, cut) + "/down2.php?token=" + token + "&lesson=" + lesson;
+		urlValue = urlValue.substring(0, cut) + "/down.php?token=" + token + "&lesson=" + lesson;
 		e.setAttribute(url, urlValue);// 关键执行步骤
 	}
 
