@@ -22,11 +22,6 @@ import main.ServerTimer;
  */
 public class CMD12 implements ICMD {
 	private static final Logger log = Logger.getLogger(CMD12.class.getName());
-	private static final Map<Integer, Integer> praiseMap = new HashMap<Integer, Integer>();
-	private static final List<Integer> pralist = new ArrayList<Integer>();
-	private static final Map<Integer, String> comMap = new HashMap<Integer, String>();
-	private static final List<Integer> list = new ArrayList<Integer>();
-
 	@Override
 	public ChannelBuffer getBytes(int code, ChannelBuffer data) {
 		ChannelBuffer buf = ChannelBuffers.dynamicBuffer();
@@ -38,21 +33,33 @@ public class CMD12 implements ICMD {
 		int boardNum = data.readInt();
 		log.info(name + "评论" + ",davice = " + deviceID + ",boardNum=" + boardNum);
 		Device device = Dao.getDeviceExist(deviceID, "");
-		if (device == null) {
+		if (device == null) {//防止数据传输出错导致应用崩溃
 			return backBuffer(buf, 2, "找不到用户");
 		} else if (!"获取".equals(name) && device.getBuy() == 0) {
-			String msg = "提交".equals(name) ? "您还未购买任何课程，不能评论。" : "您还未购买任何课程，不能点赞。";
+			String msg = "提交".equals(name) ? "您还未购买任何课程，不能评论" : "您还未购买任何课程，不能点赞";
 			return backBuffer(buf, 2, msg);
 		}
 		if ("提交".equals(name)) {
 			String userName = Global.readUTF(data);
 			String userAge = Global.readUTF(data);
 			String userMail = Global.readUTF(data);
-			String userContent = Global.readUTF(data).trim();
-			log.info("name=" + userName + ",age=" + userAge + ",联系方式=" + userMail);
-			if (userContent.equals(comMap.get(deviceID))) {
-				return backBuffer(buf, 2, "请勿重复提交。");
+			String userContent = Global.readUTF(data).trim();//去空格
+			if(userContent.length()==0){
+				return backBuffer(buf, 2, "输入的评论不能都为空格，请修改内容");
+			}else if(userContent.matches("[0-9]+")){
+				return backBuffer(buf, 2, "输入的评论不能都为数字，请修改内容");
 			}
+			log.info("name=" + userName + ",age=" + userAge + ",联系方式=" + userMail);
+			/*防止重复评论*/
+			List<Comment> list =Dao.getCommentByDevice(deviceID);
+			if(list!=null){
+				for(Comment c:list){					
+					if (userContent.equals(c.getContent())) {
+						return backBuffer(buf, 2, "请勿重复提交相同评论");
+					}
+				}
+			}
+						
 			Comment com = new Comment();
 			userName = ("用户昵称".equals(userName) ? "ID:" + deviceID : userName);
 			userMail = ("联系方式".equals(userMail) ? "未填" : userMail);
@@ -65,24 +72,21 @@ public class CMD12 implements ICMD {
 			com.setUserMail(userMail);
 			com.setContent(userContent);
 			Dao.save(com);
-			limitMapSize(comMap, list, deviceID);
-			comMap.put(deviceID, userContent);
-		} else if ("点赞".equals(name)) {
-			if (praiseMap.get(-1) == null || praiseMap.get(-1) != ServerTimer.distOfDay()) {
-				praiseMap.clear();
-				praiseMap.put(-1, ServerTimer.distOfDay());
+		} else if ("点赞".equals(name)) {			
+			if(device.getLastDay()!=ServerTimer.distOfDay()){
+				device.setPraise(0);
 			}
-			int num = praiseMap.get(deviceID) == null ? 0 : praiseMap.get(deviceID);
+			int num = device.getPraise();
 			if (num <= 4) {
 				Comment comment = Dao.getCommentByID(boardNum);// 当是点赞请求时，boardNum值是DeviceID
 				if (comment != null) {
 					comment.setPraise(comment.getPraise() + 1);
-					limitMapSize(praiseMap, pralist, deviceID);
-					praiseMap.put(deviceID, num + 1);
+					device.setPraise(num+1);
 					Dao.save(comment);
+					Dao.save(device);
 					return backBuffer(buf, 3, comment.getId() + "");
 				} else {
-					return backBuffer(buf, 2, "点赞的评论不存在。");
+					return backBuffer(buf, 2, "点赞的评论不存在");
 				}
 			} else {
 				return backBuffer(buf, 2, "你已经超过了次数，每天限5次。谢谢你的参与!");
@@ -109,20 +113,6 @@ public class CMD12 implements ICMD {
 		buf.writeBytes(Global.getUTF(html));
 		buf.writeBytes(Global.getUTF(buy));
 		return buf;
-	}
-
-	/**
-	 * 限定map的长度。
-	 */
-	private void limitMapSize(Map map, List list, int deviceID) {
-		if (!map.containsKey(deviceID)) {
-			list.add(deviceID);// 控制map长度
-			if (list.size() > 999) {
-				int j = (Integer) list.remove(0);
-				map.remove(j);
-				log.warning(map.toString());
-			}
-		}
 	}
 
 	/**

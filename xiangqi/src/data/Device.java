@@ -35,6 +35,8 @@ public class Device {
 	private String token="";
 	private int unlockKey=0;
 	private String reward = "";//记录红包信息，json
+	private int praise = 0;
+	
 	
 	public int getId() {
 		return id;
@@ -168,6 +170,12 @@ public class Device {
 	}
 	public void setReward(String reward) {
 		this.reward = reward;
+	}
+	public int getPraise() {
+		return praise;
+	}
+	public void setPraise(int praise) {
+		this.praise = praise;
 	}
 	@Override
 	public String toString() {

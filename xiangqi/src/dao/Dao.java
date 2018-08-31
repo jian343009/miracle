@@ -424,7 +424,16 @@ public class Dao {
 		}
 		return null;	
 	}
-
+	public static List<Comment> getCommentByDevice(int deviceID){
+		Session ss = HSF.getSession();
+		Criteria ct = ss.createCriteria(Comment.class).add(Restrictions.eq("device", deviceID));
+		List<Comment> list = ct.list();
+		ss.close();		
+		if(list.size() >0){
+			return list;
+		}
+		return null;	
+	}
 	
 	public static List<Comment> getComments(int deviceID,int page){
 		Session ss = HSF.getSession();
