@@ -74,16 +74,18 @@ public class CMD10 implements ICMD {
 			} else {// 这是有token的情况
 				token = device.getToken();
 			}
-			if (device.getId() % 2 == 1) {// 将奇数用户的价格改为18元
-				for (int i = 0; i < lessons.getLength(); i++) {
-					Element e = (Element) lessons.item(i);
-					e.setAttribute("Amoney", "18");
-					e.setAttribute("Bmoney", "18");
-					for (String str : new String[] { "buyinfoA", "buyinfoB", "buyinfoC" }) {
-						e.setAttribute(str, e.getAttribute(str).replace("花12元", "花18元"));
+			if(BaseData.getContent(BaseData.测试开关).contains("#价格调整#")){
+				if (device.getId() % 2 == 1) {// 将奇数用户的价格改为18元
+					for (int i = 0; i < lessons.getLength(); i++) {
+						Element e = (Element) lessons.item(i);
+						e.setAttribute("Amoney", "18");
+						e.setAttribute("Bmoney", "18");
+						for (String str : new String[] { "buyinfoA", "buyinfoB", "buyinfoC" }) {
+							e.setAttribute(str, e.getAttribute(str).replace("花12元", "花18元"));
+						}
 					}
-				}
-			}
+				}				
+			}			
 			unlocky = Global.getRandom(99999);
 			device.setUnlockKey(unlocky);
 			Dao.save(device);// 保存

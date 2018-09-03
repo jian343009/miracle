@@ -11,6 +11,7 @@ public class BaseData {
 	
 	public static final String 微信网页支付地址 = "微信网页支付地址";
 	public static final String 强制全部解锁 = "强制全部解锁";
+	public static final String 测试开关 = "测试开关";
 	
 	private int id;
 	private String name = "";
