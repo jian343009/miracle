@@ -52,15 +52,10 @@ public class CMD12 implements ICMD {
 			}
 			log.info("name=" + userName + ",age=" + userAge + ",联系方式=" + userMail);
 			/* 防止重复评论 */
-			List<Comment> list = Dao.getCommentByDevice(deviceID);
+			List<Comment> list = Dao.getCommentByContent(userContent,deviceID);
 			if (list != null) {
-				for (Comment c : list) {
-					if (userContent.equals(c.getContent())) {
-						return backBuffer(buf, 2, "请勿重复提交相同评论");
-					}
-				}
+				return backBuffer(buf, 2, "请勿重复提交相同评论");				
 			}
-
 			Comment com = new Comment();
 			userName = ("用户昵称".equals(userName) ? "ID:" + deviceID : userName);
 			userMail = ("联系方式".equals(userMail) ? "未填" : userMail);

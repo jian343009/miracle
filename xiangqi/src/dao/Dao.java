@@ -424,9 +424,12 @@ public class Dao {
 		}
 		return null;	
 	}
-	public static List<Comment> getCommentByDevice(int deviceID){
+	/**
+	 * 通过评论内容和device查找评论，防止重复评论相同内容。
+	 */
+	public static List<Comment> getCommentByContent(String content,int device){
 		Session ss = HSF.getSession();
-		Criteria ct = ss.createCriteria(Comment.class).add(Restrictions.eq("device", deviceID));
+		Criteria ct = ss.createCriteria(Comment.class).add(Restrictions.eq("content", content)).add(Restrictions.eq("device", device));
 		List<Comment> list = ct.list();
 		ss.close();		
 		if(list.size() >0){
@@ -434,7 +437,9 @@ public class Dao {
 		}
 		return null;	
 	}
-	
+	/**
+	 * 当前用户可以看到的评论。
+	 */
 	public static List<Comment> getComments(int deviceID,int page){
 		Session ss = HSF.getSession();
 		Criteria ct = ss.createCriteria(Comment.class).add(Restrictions.or(Restrictions.eq("display", true),Restrictions.eq("device", deviceID)))
@@ -443,6 +448,9 @@ public class Dao {
 		ss.close();
 		return list;
 	}
+	/**
+	 * 查找未审核评论。
+	 */
 	public static List<Comment> get审核Comment(boolean bool){
 		Session ss = HSF.getSession();
 		Criteria ct = ss.createCriteria(Comment.class).add(Restrictions.eq("checked", bool)).addOrder(Order.desc("id"));
