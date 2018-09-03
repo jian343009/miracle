@@ -22,6 +22,7 @@ import main.ServerTimer;
  */
 public class CMD12 implements ICMD {
 	private static final Logger log = Logger.getLogger(CMD12.class.getName());
+
 	@Override
 	public ChannelBuffer getBytes(int code, ChannelBuffer data) {
 		ChannelBuffer buf = ChannelBuffers.dynamicBuffer();
@@ -33,7 +34,7 @@ public class CMD12 implements ICMD {
 		int boardNum = data.readInt();
 		log.info(name + "评论" + ",davice = " + deviceID + ",boardNum=" + boardNum);
 		Device device = Dao.getDeviceExist(deviceID, "");
-		if (device == null) {//防止数据传输出错导致应用崩溃
+		if (device == null) {// 防止数据传输出错导致应用崩溃
 			return backBuffer(buf, 2, "找不到用户");
 		} else if (!"获取".equals(name) && device.getBuy() == 0) {
 			String msg = "提交".equals(name) ? "您还未购买任何课程，不能评论" : "您还未购买任何课程，不能点赞";
@@ -43,23 +44,23 @@ public class CMD12 implements ICMD {
 			String userName = Global.readUTF(data);
 			String userAge = Global.readUTF(data);
 			String userMail = Global.readUTF(data);
-			String userContent = Global.readUTF(data).trim();//去空格
-			if(userContent.length()==0){
+			String userContent = Global.readUTF(data).trim();// 去空格
+			if (userContent.length() == 0) {
 				return backBuffer(buf, 2, "输入的评论不能都为空格，请修改内容");
-			}else if(userContent.matches("[0-9]+")){
+			} else if (userContent.matches("[0-9]+")) {
 				return backBuffer(buf, 2, "输入的评论不能都为数字，请修改内容");
 			}
 			log.info("name=" + userName + ",age=" + userAge + ",联系方式=" + userMail);
-			/*防止重复评论*/
-			List<Comment> list =Dao.getCommentByDevice(deviceID);
-			if(list!=null){
-				for(Comment c:list){					
+			/* 防止重复评论 */
+			List<Comment> list = Dao.getCommentByDevice(deviceID);
+			if (list != null) {
+				for (Comment c : list) {
 					if (userContent.equals(c.getContent())) {
 						return backBuffer(buf, 2, "请勿重复提交相同评论");
 					}
 				}
 			}
-						
+
 			Comment com = new Comment();
 			userName = ("用户昵称".equals(userName) ? "ID:" + deviceID : userName);
 			userMail = ("联系方式".equals(userMail) ? "未填" : userMail);
@@ -72,16 +73,18 @@ public class CMD12 implements ICMD {
 			com.setUserMail(userMail);
 			com.setContent(userContent);
 			Dao.save(com);
-		} else if ("点赞".equals(name)) {			
-			if(device.getLastDay()!=ServerTimer.distOfDay()){
-				device.setPraise(0);
+		} else if ("点赞".equals(name)) {
+			int today = ServerTimer.distOfDay();
+			/* praise = 点赞日期乘100 + 点赞次数 */
+			if (device.getPraise() / 100 != today) {// 去掉点赞次数比点赞日期
+				device.setPraise(today * 100);
 			}
-			int num = device.getPraise();
+			int num = device.getPraise() - (today * 100);
 			if (num <= 4) {
 				Comment comment = Dao.getCommentByID(boardNum);// 当是点赞请求时，boardNum值是DeviceID
 				if (comment != null) {
 					comment.setPraise(comment.getPraise() + 1);
-					device.setPraise(num+1);
+					device.setPraise(device.getPraise() + 1);
 					Dao.save(comment);
 					Dao.save(device);
 					return backBuffer(buf, 3, comment.getId() + "");
