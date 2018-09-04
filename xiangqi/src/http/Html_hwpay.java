@@ -109,7 +109,7 @@ public class Html_hwpay extends Html {
 				}				
 				mc.setTotalPay(mc.getTotalPay() + money);
 				mc.setHwPay(mc.getHwPay() + money);
-				Dao.save(mc);
+				
 				count.setTotalPay(count.getTotalPay() + money);
 				count.setHwPay(count.getHwPay() + money);
 				
@@ -127,8 +127,15 @@ public class Html_hwpay extends Html {
 				Data dat = Data.fromMap(wd.getReward());
 				for(int les:new int[]{1,2}){
 					if("未使用".equals(dat.get(les).get("状态").asString())){
-						dat.getMap(les).put("状态", "已使用");		}
+						dat.getMap(les).put("状态", "已使用");	//改用户红包状态
+						Data data1=Data.fromMap(mc.getDataStr());//月记录红包使用
+						Data data2=data1.getMap("红包使用");
+						data2.put("次数", data2.get("次数").asInt()+1);
+						data2.put("金额", data2.get("金额").asInt()+dat.get(les).get("金额").asInt());
+						mc.setDataStr(data1.toString());
+					}
 				}	
+				Dao.save(mc);
 				wd.setReward(dat.toString());
 				if(lesson ==0){
 					wd.setLastDay(ServerTimer.distOfDay());
