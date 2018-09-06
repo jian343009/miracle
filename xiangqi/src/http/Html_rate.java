@@ -1,5 +1,6 @@
 package http;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
@@ -96,33 +97,39 @@ public class Html_rate implements IHtml {
 				Count next = list2.get(m+1);
 				Data data = list2.get(m).getData();
 				int open = 0 , otherOpen = 0;
-				int[] iday={0,1,2,4,8,15};				
-				for(int i:iday){
-					 open += data.get("返回").get(i).get("共计").asInt()-data.get("返回").get(i).get("详细").get("其它版本").asInt();
-					 otherOpen +=data.get("返回").get(i).get("详细").get("其它版本").asInt();
+				for(int i:new int[]{0,1,2,4,8,15}){					 
+					 otherOpen += data.get("返回").get(i).get("详细").get("其它版本").asInt();
+					 open += data.get("返回").get(i).get("共计").asInt();
 				}
 				String day2,day7;
-				day2 = "<br>偶"+(data.get("返回").get(2).get("详细").get("0").asInt()+data.get("返回").get(4).get("详细").get("0").asInt())
-						+"<br>奇"+(data.get("返回").get(2).get("详细").get("1").asInt()+data.get("返回").get(4).get("详细").get("1").asInt());
-				day7 = "<br>偶"+(data.get("返回").get(8).get("详细").get("0").asInt()+data.get("返回").get(15).get("详细").get("0").asInt())
-						+"<br>奇"+(data.get("返回").get(8).get("详细").get("1").asInt()+data.get("返回").get(15).get("详细").get("1").asInt());
-				
+				day2 = "<br>偶"+( 返回(data,2,0) + 返回(data,4,0)	)
+						+"<br>奇"+( 返回(data,2,1) + 返回(data,4,1) );
+				day7 = "<br>偶"+( 返回(data,8,0) + 返回(data,15,0) )
+						+"<br>奇"+( 返回(data,8,1) + 返回(data,15,1) );
+				Data detail = data.get("支付").get("详细金额");
+				String 平均支付率 = "",平均支付额 = "";
+				if(count.getOpen() > 0){
+					平均支付率 = new DecimalFormat("0.0").format((float)count.getPay()*100/count.getOpen());
+					平均支付额 = new DecimalFormat("0.000").format((float)count.getTotalPay()/count.getOpen());					
+				}
 				sb.append("<tr>" +
 						"<td>"+count.getDayStr()+"</td>" +
-						"<td>"+count.getOpen()+"<br>是7:"+open+"<br>非7:"+otherOpen+"</td>" +
+						"<td>"+count.getOpen()+"<br>是7:"+(open - otherOpen)+"<br>非7:"+otherOpen+"</td>" +
 						"<td>"+count.getNewDevice()+"<br>是7:"+data.get("新增用户").get(7).asInt()+"<br>非7:"+data.get("新增用户").get(0).asInt()+"</td>" +
 						"<td>"+count.getReturnNum(1)+"("+(next.getNewDevice() == 0 ? 0 : count.getReturnNum(1)*100/next.getNewDevice())+"%)"
-							+this.show奇偶(data.get("返回").get(1).get("详细"))+
+							+this.show奇偶(data.get("返回").get(1).get("详细"))+"</td>" +
 						"<td>"+count.getReturnNum(2)+day2+"</td>" +
 						"<td>"+count.getReturnNum(7)+day7+"</td>" +
 						"<td>"+count.getPay()+this.show奇偶(data.get("支付").get("总计次数"))+"</td>"+
 						"<td>"+count.getNewPay()+"</td>" +
 						"<td>"+count.getTotalPay()+this.show奇偶(data.get("支付").get("总计金额"))+"</td>" +
-						"<td>"+count.getAliPay()+this.show奇偶(data.get("支付").get("详细金额").get("支付宝"))+"</td>" +
-						"<td>"+count.getWxPay()+this.show奇偶(data.get("支付").get("详细金额").get("微信支付"))+"</td>" +
-						"<td>"+count.getApplePay()+this.show奇偶(data.get("支付").get("详细金额").get("苹果支付"))+"</td>" +
-						"<td>"+count.getHwPay()+this.show奇偶(data.get("支付").get("详细金额").get("华为支付"))+"</td>" +
-						"<td>"+count.getWiiPay()+this.show奇偶(data.get("支付").get("详细金额").get("其它支付"))+"</td>" +
+						"<td>"+平均支付率+"%</td>" +
+						"<td>"+平均支付额+"</td>" +
+						"<td>"+count.getAliPay()+this.show奇偶(detail.get("支付宝"))+"</td>" +
+						"<td>"+count.getWxPay()+this.show奇偶(detail.get("微信支付"))+"</td>" +
+						"<td>"+count.getApplePay()+this.show奇偶(detail.get("苹果支付"))+"</td>" +
+						"<td>"+count.getHwPay()+this.show奇偶(detail.get("华为支付"))+"</td>" +
+						"<td>"+count.getWiiPay()+this.show奇偶(detail.get("其它支付"))+"</td>" +
 						"</tr>");
 			}
 			
@@ -142,6 +149,8 @@ public class Html_rate implements IHtml {
 									"<th data-priority=\"5\">支付次数</th>" +
 									"<th data-priority=\"6\">新增支付次数</th>" +
 									"<th>支付金额</th>" +
+									"<th data-priority=\"3\">平均支付率</th>" +
+									"<th data-priority=\"3\">平均支付额</th>" +
 									"<th data-priority=\"8\">支付宝</th>" +
 									"<th data-priority=\"9\">微信支付</th>" +
 									"<th data-priority=\"9\">苹果支付</th>" +
@@ -218,5 +227,9 @@ public class Html_rate implements IHtml {
 			}
 		}		
 		return str.toString();
-	}	
+	}
+	private int 返回(Data data,int day,int 奇偶){
+		//data.get("返回").get(2).get("详细").get("1").asInt();
+		return data.get("返回").get(day).get("详细").get(奇偶).asInt();		
+	}
 }
