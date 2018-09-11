@@ -37,9 +37,12 @@ public class CMD13 implements ICMD {
 		if ("生成红包".equals(name)) {// 全部购买有不发红包
 			if (!data.get(lesson).get("状态").asString().isEmpty()) {
 				return backBuffer(2, "当前课程的红包状态是："+data.get(lesson).get("状态").asString());
-			}else if (device.getBuyState() == 131068 && lesson < 3) {
-				return backBuffer(2, "已全部购买或课数有误");
+			}else if (device.getBuyState() == 131068 ) {
+				return backBuffer(2, "已全部购买");
+			}else if(lesson < 1 || lesson > 3){
+				return backBuffer(2, "非法的课程");
 			}
+			
 			int cash = 0;
 			int other = (lesson == 1 ? 2 : 1);
 			int cash2 = data.get(other).get("金额").asInt();
