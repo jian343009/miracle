@@ -36,11 +36,11 @@ public class CMD12 implements ICMD {
 		Device device = Dao.getDeviceExist(deviceID, "");
 		if (device == null) {// 防止数据传输出错导致应用崩溃
 			return backBuffer(buf, 2, "找不到用户");
-		} else if (!"获取".equals(name) && device.getBuy() == 0) {
-			String msg = "提交".equals(name) ? "您还未购买任何课程，不能评论" : "您还未购买任何课程，不能点赞";
-			return backBuffer(buf, 2, msg);
 		}
 		if ("提交".equals(name)) {
+//			if (device.getBuy() == 0 && device.getBuyState() <= 4) {
+//				return backBuffer(buf, 2, "您还未购买任何课程，不能评论");
+//			}
 			String userName = Global.readUTF(data);
 			String userAge = Global.readUTF(data);
 			String userMail = Global.readUTF(data);
@@ -52,13 +52,13 @@ public class CMD12 implements ICMD {
 			}
 			log.info("name=" + userName + ",age=" + userAge + ",联系方式=" + userMail);
 			/* 防止重复评论 */
-			List<Comment> list = Dao.getCommentByContent(userContent,deviceID);
+			List<Comment> list = Dao.getCommentByContent(userContent, deviceID);
 			if (list != null) {
-				return backBuffer(buf, 2, "请勿重复提交相同评论");				
+				return backBuffer(buf, 2, "请勿重复提交相同评论");
 			}
 			Comment com = new Comment();
-			userName = ("用户昵称".equals(userName) ? "ID:" + deviceID : userName);
-			userMail = ("联系方式".equals(userMail) ? "未填" : userMail);
+			userName = ("用户昵称(选填)".equals(userName) ? "ID:" + deviceID : userName);
+			userMail = ("联系方式(选填)".equals(userMail) ? "未填" : userMail);
 			userAge = (Global.getInt(userAge) == 0 ? "未填" : userAge + "岁");
 			com.setTimeStr(ServerTimer.getFull());// 用于显示的时间
 			com.setDevice(deviceID);
@@ -69,6 +69,9 @@ public class CMD12 implements ICMD {
 			com.setContent(userContent);
 			Dao.save(com);
 		} else if ("点赞".equals(name)) {
+//			if (device.getBuy() == 0 && device.getBuyState() <= 4) {
+//				return backBuffer(buf, 2, "您还未购买任何课程，不能点赞");
+//			}
 			int today = ServerTimer.distOfDay();
 			/* praise = 点赞日期乘100 + 点赞次数 */
 			if (device.getPraise() / 100 != today) {// 去掉点赞次数比点赞日期
@@ -106,7 +109,7 @@ public class CMD12 implements ICMD {
 			}
 		}
 		html = "<Comments>" + sb.toString() + "</Comments>";
-		String buy = device.getBuy() == 0 ? "未购" : "已购";
+		String buy = device.getBuy() == 0 ? "已购" : "已购";
 		buf.writeByte(1);
 		buf.writeBytes(Global.getUTF(html));
 		buf.writeBytes(Global.getUTF(buy));
