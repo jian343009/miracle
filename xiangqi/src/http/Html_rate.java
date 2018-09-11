@@ -112,8 +112,14 @@ public class Html_rate implements IHtml {
 					平均支付率 = new DecimalFormat("0.0").format((float)count.getPay()*100/count.getOpen());
 					平均支付额 = new DecimalFormat("0.000").format((float)count.getTotalPay()/count.getOpen());					
 				}
-				sb.append("<tr>" +
-						"<td>"+count.getDayStr()+"</td>" +
+				String[] weeks = {"没有","星期日","星期一","星期二","星期三","星期四","星期五","星期六"};
+				String week =weeks[ServerTimer.getCalendarFromString(count.getDayStr()).get(Calendar.DAY_OF_WEEK)];
+				String color = "<tr class=\""+week+"\">";
+				if("星期日".equals(week) || "星期六".equals(week)){
+					color = "<tr class=\""+week+"\" bgcolor=\"#FFFFBB\">";
+				}
+				sb.append(color +
+						"<td>"+count.getDayStr()+"<br>"+week+"</td>" +
 						"<td>"+count.getOpen()+"<br>是7:"+(open - otherOpen)+"<br>非7:"+otherOpen+"</td>" +
 						"<td>"+count.getNewDevice()+"<br>是7:"+data.get("新增用户").get(7).asInt()+"<br>非7:"+data.get("新增用户").get(0).asInt()+"</td>" +
 						"<td>"+count.getReturnNum(1)+"("+(next.getNewDevice() == 0 ? 0 : count.getReturnNum(1)*100/next.getNewDevice())+"%)"
@@ -135,8 +141,17 @@ public class Html_rate implements IHtml {
 			
 			body +=
 				"<div align=\"center\" data-role=\"collapsible\">"+
-					"<h3 align=\"center\">每天统计</h3>" +
+					"<h3 align=\"center\">每天统计</h3>" +					
 					"<div>" +
+					"<div data-role=\"controlgroup\" data-type=\"horizontal\" data-mini='true' >" +
+				  	"<label for='checkbox1'>星期一</label><input type='checkbox' id='checkbox1' checked=\"checked\" onclick=\"$('.星期一').toggle();\" />" +
+				  	"<label for='checkbox2'>星期二</label><input type='checkbox' id='checkbox2' checked=\"checked\" onclick=\"$('.星期二').toggle();\" />" +
+				  	"<label for='checkbox3'>星期三</label><input type='checkbox' id='checkbox3' checked=\"checked\" onclick=\"$('.星期三').toggle();\" />" +
+				  	"<label for='checkbox4'>星期四</label><input type='checkbox' id='checkbox4' checked=\"checked\" onclick=\"$('.星期四').toggle();\" />" +
+				  	"<label for='checkbox5'>星期五</label><input type='checkbox' id='checkbox5' checked=\"checked\" onclick=\"$('.星期五').toggle();\" />" +
+				  	"<label for='checkbox6'>星期六</label><input type='checkbox' id='checkbox6' checked=\"checked\" onclick=\"$('.星期六').toggle();\" />" +
+				  	"<label for='checkbox0'>星期天</label><input type='checkbox' id='checkbox0' checked=\"checked\" onclick=\"$('.星期日').toggle();\" />" +
+				  	 "</div>"+
 						"<table data-role=\"table\" id='t2' data-mode=\"columntoggle\" class=\"ui-responsive table-stroke\" border='1' >" +
 							"<thead>" +
 								"<tr>" +
@@ -147,10 +162,10 @@ public class Html_rate implements IHtml {
 									"<th data-priority=\"4\">2~6返回</th>" +
 									"<th data-priority=\"4\">7~返回</th>" +
 									"<th data-priority=\"5\">支付次数</th>" +
-									"<th data-priority=\"6\">新增支付次数</th>" +
+									"<th data-priority=\"8\">新增支付</th>" +
 									"<th>支付金额</th>" +
-									"<th data-priority=\"3\">平均支付率</th>" +
-									"<th data-priority=\"3\">平均支付额</th>" +
+									"<th data-priority=\"9\">平均支付率</th>" +
+									"<th data-priority=\"9\">平均支付额</th>" +
 									"<th data-priority=\"8\">支付宝</th>" +
 									"<th data-priority=\"9\">微信支付</th>" +
 									"<th data-priority=\"9\">苹果支付</th>" +
