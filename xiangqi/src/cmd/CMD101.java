@@ -28,10 +28,12 @@ public class CMD101 implements ICMD {
 		String info = "";
 		
 		Device device = Dao.getDeviceExist(deviceID, imei);
+		int version = 0;
 		if(device != null){
 			channel = device.getChannel();
-		}
-		
+			version = Global.getInt(device.getVersion());
+			deviceID = device.getId();
+		}		
 		Global.addStep(deviceID, imei, lesson+"#"+step, channel);
 		
 		if(step.equals("打开支付单课")){
@@ -44,8 +46,8 @@ public class CMD101 implements ICMD {
 			StepCount.getByChannelToday(channel).add单课行为(lesson, step).store();
 		}else if(step.equals("完成学习")){			
 			StepCount sc = StepCount.getByChannelToday(channel);				
-			if(lesson == 1 && Global.getInt(device.getVersion()) >=7){
-				sc.add单课行为(lesson, (device.getId()%2)+step);//0完成学习，1完成学习，记录奇偶用用户完成学习的情况
+			if(lesson == 1 && version >=7){
+				sc.add单课行为(lesson, (deviceID%2)+step);//0完成学习，1完成学习，记录奇偶用用户完成学习的情况
 			}	sc.add单课行为(lesson, step).store();
 		}else if(step.equals("开始练习")){
 			StepCount.getByChannelToday(channel).add单课行为(lesson, step).store();
