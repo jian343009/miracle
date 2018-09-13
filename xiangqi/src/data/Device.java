@@ -23,6 +23,7 @@ public class Device {
 	private int buyState = 0;
 	private int open = 0;
 	private int buy = 0;
+	private int money = 0;
 	private int offbuy = 0;
 	@Column(length=60000)
 	private String regChannel = "";
@@ -32,8 +33,8 @@ public class Device {
 	private String extra = "";
 	private String mobile = "";
 	private int state = 0;//0.空闲 1.团购 2.众筹
-	private String token="";
-	private int unlockKey=0;
+	private String token="";//加密锁
+	private int unlockKey=0;//课程解锁码
 	private String reward = "";//记录红包信息，json
 	private int praise = 0;
 	
@@ -97,6 +98,12 @@ public class Device {
 	}
 	public void setBuy(int buy) {
 		this.buy = buy;
+	}
+	public int getMoney() {
+		return money;
+	}
+	public void setMoney(int money) {
+		this.money = money;
 	}
 	public int getOffbuy() {
 		return offbuy;

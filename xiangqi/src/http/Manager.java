@@ -171,11 +171,15 @@ public class Manager extends SimpleChannelUpstreamHandler implements TimerTask {
 				hl = new Html_wxpay().getHtml(content);
 				Global.addRecord(0, url, content, ""+hl);
 			}else if(url.startsWith("/getunlockkey?")){
-				logger.info("unlock:"+url.replace("/getunlockkey?", ""));
 				hl = new Html_getUnlockKey().getHtml(url.replace("/getunlockkey?", ""));
 			}else if(url.startsWith("/comment")){
 				hl = new Html_comment().getHtml(content);
 			}
+//			else if(url.startsWith("/getCode")){
+//				hl = new Html_getCode().getHtml(url.replace("/getCode", ""));
+//			}else if(url.startsWith("/nextTuan")){
+//				hl = new Html_getCode().getHtml(url.replace("/nextTuan", ""));
+//			}
 			
 			logger.warn("url:"+url+",length:"+hl.length());
 			buffer.writeBytes(hl.getBytes(Charset.forName("utf-8")));

@@ -16,6 +16,7 @@ public class Html_tuan extends Html {
 		
 		String token = "";
 		String number = "";
+		String url = "";
 		String[] conts = content.split("&");
 		for(int m=0;m<conts.length;m++){
 			if(conts[m].startsWith("token=")){

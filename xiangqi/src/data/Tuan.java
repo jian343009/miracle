@@ -32,12 +32,13 @@ public class Tuan extends Database{
 	private String title = "";
 	private String info = "";
 	
-	private int state = 0;
-	private String status = "";
+	private int peoples = 0;//参与人数
+	private String status = "";//状态
+	private String numbers = "";//参团的人
 	private int open = 0;
 	private int pay = 0;
 	@Column(length=60000)
-	private String payMobile = "";
+	private String payMobile = "";//存多个mobileID，用'#'分开
 	private double payMoney = 0;
 	@Column(length=60000)
 	private String regChannel = "";
@@ -99,17 +100,23 @@ public class Tuan extends Database{
 	public void setInfo(String info) {
 		this.info = info;
 	}
-	public int getState() {
-		return state;
+	public int getPeoples() {
+		return peoples;
 	}
-	public void setState(int state) {
-		this.state = state;
+	public void setPeoples(int peoples) {
+		this.peoples = peoples;
 	}
 	public String getStatus() {
 		return status;
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getNumbers() {
+		return numbers;
+	}
+	public void setNumbers(String numbers) {
+		this.numbers = numbers;
 	}
 	public int getOpen() {
 		return open;
@@ -167,11 +174,6 @@ public class Tuan extends Database{
 		ss.close();
 		if(list.size() >0){
 			tu = list.get(0);
-		}else{
-			tu = new Tuan();
-			tu.setImei(imei);
-			tu.setFirstTime(ServerTimer.getFull());
-			Dao.save(tu);
 		}
 		return tu;
 	}

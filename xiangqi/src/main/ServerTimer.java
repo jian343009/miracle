@@ -1,4 +1,4 @@
-﻿package main;
+package main;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,6 +33,17 @@ public class ServerTimer{
 	{
 		Calendar now = Calendar.getInstance();
 		SimpleDateFormat s=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return s.format(now.getTime());
+	}
+	public static String getFull(int second) {
+		SimpleDateFormat s=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar c2000 = Calendar.getInstance();
+		try {
+			c2000.setTime(s.parse("2000-1-1 0:0:0"));
+		} catch (Exception e) {		}
+		long l = (long)second + c2000.getTimeInMillis()/1000;
+		Calendar now = Calendar.getInstance();
+		now.setTimeInMillis(l * 1000);		
 		return s.format(now.getTime());
 	}
 	public static String getYMD()

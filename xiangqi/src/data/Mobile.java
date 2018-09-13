@@ -24,7 +24,8 @@ public class Mobile extends Database{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String number = "";
-	private String imei = "";
+	private String imei = "";//外键对应device
+	private int tuanID = 0;
 	private String enter = "";
 	private String firstTime = "";
 	private String sex = "";
@@ -36,19 +37,18 @@ public class Mobile extends Database{
 	private String code = "";
 	private String receiveCode = "";
 	private int lastTime = 0;
-	private String lastTimeStr = "";
+	private String lastTimeStr = "";//记录验证码获取 时间
 	
 	private int openState = 0;
 	private int buyState = 0;
 	private int open = 0;
-	private int buy = 0;
-	private int offbuy = 0;
+	private int buy = 0;//购买次数
+	private int offbuy = 0;//记录团购金额
 	@Column(length=60000)
 	private String regChannel = "";
 	private String channel="";
 	private String version = "";
 	private String extra = "";
-	
 	public int getId() {
 		return id;
 	}
@@ -66,6 +66,12 @@ public class Mobile extends Database{
 	}
 	public void setImei(String imei) {
 		this.imei = imei;
+	}
+	public int getTuanID() {
+		return tuanID;
+	}
+	public void setTuanID(int tuanID) {
+		this.tuanID = tuanID;
 	}
 	public String getEnter() {
 		return enter;
@@ -256,7 +262,7 @@ public class Mobile extends Database{
 		}else{
 			mo = new Mobile();
 			mo.setNumber(number);
-			mo.setFirstTime(ServerTimer.getFull());
+			//mo.setFirstTime(ServerTimer.getFull());完成支付时设置firsttime
 			Dao.save(mo);
 		}
 		return mo;
@@ -264,6 +270,15 @@ public class Mobile extends Database{
 	public static synchronized Mobile getByID(int id){
 		Session ss = HSF.getSession();
 		List<Mobile> list = ss.createCriteria(Mobile.class).add(Restrictions.eq("id", id)).list();
+		ss.close();
+		if(list.size() >0){
+			return list.get(0);
+		}
+		return null;
+	}
+	public static synchronized Mobile getByImei(String imei){
+		Session ss = HSF.getSession();
+		List<Mobile> list = ss.createCriteria(Mobile.class).add(Restrictions.eq("imei", imei)).list();
 		ss.close();
 		if(list.size() >0){
 			return list.get(0);

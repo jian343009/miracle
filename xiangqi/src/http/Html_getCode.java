@@ -28,8 +28,7 @@ public class Html_getCode extends Html {
 			if(mobile.getCode().isEmpty() || ServerTimer.distOfMinute() - mobile.getLastTime() >30){
 				String code = ""+Global.getRandom(1000, 9999);
 				mobile.setCode(code);
-				mobile.setReceiveCode("");
-				mobile.setLastTime(ServerTimer.distOfMinute());
+				mobile.setLastTime(ServerTimer.distOfMinute());//验证码发送时间
 				mobile.setLastTimeStr(ServerTimer.getFull());
 				try {
 					SendSmsResponse response = Sms.send验证码(number, code);

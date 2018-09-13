@@ -61,13 +61,65 @@ public class Html_heepay implements IHtml{
 				pay.setMoney((int)money);
 			}
 			if(channel.equals("团购")){
+				//id = tuan.getId()+"-"+lesson = mobile.getId()+"-"+total = 131068 + channel = "-团购",
 				Tuan tuan = Tuan.getByID(id);
-				if(tuan != null){
+				if(tuan == null){
+					return "error";
+				}else if(lesson == 888){//发起团购
+					Device device = Dao.getDeviceExist(0, tuan.getImei());
+					if(device != null){//改发起人的状态为团购。
+						device.setState(1);	//改状态
+						device.setBuy( device.getBuy() + 1 );
+						device.setMoney(device.getMoney() + (int)money);
+						Dao.save(device);
+					}
+					tuan.setPeoples(1);
+					tuan.setStatus("已开团");
+					tuan.setFirstTime(ServerTimer.getFull());// 设置开始时间
+					int lastHour = 24;//团购有效期
+					tuan.setLastTime(ServerTimer.distOfSecond() + lastHour * 60 * 60);
+					Calendar c1 = Calendar.getInstance();
+					c1.add(Calendar.HOUR, lastHour);// 设置结束时间			
+					tuan.setLastTimeStr(ServerTimer.getFull(c1));// 设置结束时间
+					Dao.save(tuan);
+				}else if("已开团".equals(tuan.getStatus())){
+					if(999 == lesson){//补差价。
+						Device device = Dao.getDeviceExist(0, tuan.getImei());
+						if(device != null){
+							device.setBuyState(total);
+							device.setBuy( device.getBuy() + 1 );
+							device.setMoney(device.getMoney() + (int)money);
+							Dao.save(device);
+						}					
+					}
+					Mobile mobile = Mobile.getByID(lesson);//mobile在通过手机验证的时候生成
+					if(mobile != null){
+						mobile.setImei("");//这样一个手机号可以多次团
+						mobile.setTuanID(tuan.getId());
+						mobile.setBuy(mobile.getBuy() + 1);
+						mobile.setOffbuy((int)money);
+						mobile.setBuyState(total);
+						mobile.setFirstTime(ServerTimer.getFull());
+						Dao.save(mobile);
+					}
+					//有人参团，团购有效期延时
+					int lastHour = 24;//团购有效期
+					tuan.setLastTime(ServerTimer.distOfSecond() + lastHour * 60 * 60);
+					tuan.setLastTimeStr(ServerTimer.getFull(tuan.getLastTime()));// 设置结束时间					
+					tuan.setPeoples(tuan.getPeoples() + 1);//参团人数加1
 					tuan.setPay(tuan.getPay() +1);
 					tuan.setPayMobile(tuan.getPayMobile()+lesson+"#");
 					tuan.setPayMoney(tuan.getPayMoney() + money);
 					Dao.save(tuan);
+					if(tuan.getPeoples() == 2){//达到参团人数，发起人解锁。
+						Device device = Dao.getDeviceExist(0, tuan.getImei());
+						if(device != null){
+							device.setBuyState(total);
+							Dao.save(device);
+						}
+					}
 				}
+				
 			}else if(channel.equals("众筹")){
 				Chou chou = Chou.getByID(id);
 				if(chou != null){
@@ -155,8 +207,7 @@ public class Html_heepay implements IHtml{
 			pay.setUsed(pay.getUsed() +1);
 			pay.setFirstTime(pay.getFirstTime() + "#"+ServerTimer.getFullWithS());
 			Dao.save(pay);
-		}
-		
+		}		
 		return html;
 	}
 }

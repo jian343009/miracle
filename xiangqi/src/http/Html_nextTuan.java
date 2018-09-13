@@ -53,6 +53,10 @@ public class Html_nextTuan extends Html {
 				mobile.setReceiveCode(mobile.getReceiveCode() + "#"+code);
 				Dao.save(mobile);
 			}else{
+				mobile.setReceiveCode("");
+				tuan.setOpen(tuan.getOpen()+1);//打开人数加1。
+				Dao.save(mobile);//验证成功清除错误记录
+				Dao.save(tuan);
 		        String url = CMD203.getPayUrl(144, "xiangqituan"+ServerTimer.getTotalWithS(), tuan.getId()+"-"+mobile.getId()+"-"+131068+"-团购", "少儿围棋团购", "参与团购");
 		        html = "url="+url;
 			}
