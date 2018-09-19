@@ -28,8 +28,11 @@ public class Html_getUnlockKey extends Html {
 			
 			int bought = device.getBuyState();//取出用户购买记录
 			log.info("bought:"+bought);
-			int pow = 1 << lesson;		
-			if (BaseData.getContent(BaseData.强制全部解锁).contains("#"+device.getChannel()+device.getVersion()+"#") || (bought & pow) == pow) {//是否购买
+			int pow = 1 << lesson;
+			if(lesson > 16){
+				unlockMark = CMD10.next(unlockMark, lesson);
+				code += unlockMark;
+			}else if (BaseData.getContent(BaseData.强制全部解锁).contains("#"+device.getChannel()+device.getVersion()+"#") || (bought & pow) == pow) {//是否购买
 				if (device.getUnlockNum(lesson) <= 5) {//解锁次数				
 					unlockMark = CMD10.next(unlockMark, lesson);
 					code += unlockMark;

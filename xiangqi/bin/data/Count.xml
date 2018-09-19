@@ -32,6 +32,9 @@
 		<property name="dataStr" type="java.lang.String">
 		    <column name="dataStr" length="60000"></column>
 		</property>
+		<property name="reward" type="java.lang.String">
+		    <column name="reward" length="60000"></column>
+		</property>
 		
     </class>
 </hibernate-mapping>

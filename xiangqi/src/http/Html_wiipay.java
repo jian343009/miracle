@@ -117,11 +117,11 @@ public class Html_wiipay implements IHtml{
 					for(int les:new int[]{1,2}){
 						if("未使用".equals(dat.get(les).get("状态").asString())){
 							dat.getMap(les).put("状态", "已使用");	//改用户红包状态
-							Data data1=Data.fromMap(mc.getDataStr());//月记录红包使用
+							Data data1=Data.fromMap(count.getReward());//记录红包使用
 							Data data2=data1.getMap("红包使用");
 							data2.put("次数", data2.get("次数").asInt()+1);
 							data2.put("金额", data2.get("金额").asInt()+dat.get(les).get("金额").asInt());
-							mc.setDataStr(data1.toString());
+							count.setReward(data1.toString());
 						}
 					}	
 					Dao.save(mc);

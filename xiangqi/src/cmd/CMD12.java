@@ -38,9 +38,9 @@ public class CMD12 implements ICMD {
 			return backBuffer(buf, 2, "找不到用户");
 		}
 		if ("提交".equals(name)) {
-//			if (device.getBuy() == 0 && device.getBuyState() <= 4) {
-//				return backBuffer(buf, 2, "您还未购买任何课程，不能评论");
-//			}
+			if (device.getBuy() == 0 && device.getBuyState() <= 4) {
+				return backBuffer(buf, 2, "您还未购买任何课程，不能评论");
+			}
 			String userName = Global.readUTF(data);
 			String userAge = Global.readUTF(data);
 			String userMail = Global.readUTF(data);
@@ -69,9 +69,9 @@ public class CMD12 implements ICMD {
 			com.setContent(userContent);
 			Dao.save(com);
 		} else if ("点赞".equals(name)) {
-//			if (device.getBuy() == 0 && device.getBuyState() <= 4) {
-//				return backBuffer(buf, 2, "您还未购买任何课程，不能点赞");
-//			}
+			if (device.getBuy() == 0 && device.getBuyState() <= 4) {
+				return backBuffer(buf, 2, "您还未购买任何课程，不能点赞");
+			}
 			int today = ServerTimer.distOfDay();
 			/* praise = 点赞日期乘100 + 点赞次数 */
 			if (device.getPraise() / 100 != today) {// 去掉点赞次数比点赞日期
@@ -109,7 +109,7 @@ public class CMD12 implements ICMD {
 			}
 		}
 		html = "<Comments>" + sb.toString() + "</Comments>";
-		String buy = device.getBuy() == 0 ? "已购" : "已购";
+		String buy = device.getBuy() == 0 ? "未购" : "已购";
 		buf.writeByte(1);
 		buf.writeBytes(Global.getUTF(html));
 		buf.writeBytes(Global.getUTF(buy));

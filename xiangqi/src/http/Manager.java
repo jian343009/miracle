@@ -165,17 +165,17 @@ public class Manager extends SimpleChannelUpstreamHandler implements TimerTask {
 				hl = new Html_hwpay().getHtml(content);
 				type = "application/json; charset=UTF-8";
 				Global.addRecord(0, "", url, content+" #return:"+hl);
-			}else if(url.startsWith("/tuan?")){
-				hl = new Html_tuan().getHtml(url.replace("/tuan?", ""));
 			}else if(url.equals("/wxpay")){
 				hl = new Html_wxpay().getHtml(content);
 				Global.addRecord(0, url, content, ""+hl);
 			}else if(url.startsWith("/getunlockkey?")){
 				hl = new Html_getUnlockKey().getHtml(url.replace("/getunlockkey?", ""));
-			}else if(url.startsWith("/comment")){
+			}else if(url.startsWith("/comment")){//评论审核
 				hl = new Html_comment().getHtml(content);
 			}
-//			else if(url.startsWith("/getCode")){
+//			else if(url.startsWith("/tuan?")){
+//				hl = new Html_tuan().getHtml(url.replace("/tuan?", ""));
+//			}else if(url.startsWith("/getCode")){
 //				hl = new Html_getCode().getHtml(url.replace("/getCode", ""));
 //			}else if(url.startsWith("/nextTuan")){
 //				hl = new Html_getCode().getHtml(url.replace("/nextTuan", ""));

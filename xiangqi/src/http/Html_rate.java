@@ -91,6 +91,7 @@ public class Html_rate implements IHtml {
 			
 			String tr2 = "";
 			StringBuilder sb=new StringBuilder();
+			StringBuilder 红包=new StringBuilder();
 			List<Count> list2 = Dao.getAllDayCount();
 			for(int m=0;m<list2.size()-1;m++){
 				Count count = list2.get(m);
@@ -137,6 +138,17 @@ public class Html_rate implements IHtml {
 						"<td>"+count.getHwPay()+this.show奇偶(detail.get("华为支付"))+"</td>" +
 						"<td>"+count.getWiiPay()+this.show奇偶(detail.get("其它支付"))+"</td>" +
 						"</tr>");
+				Data reward = Data.fromMap(count.getReward());
+				if(reward.containsKey("红包生成")||reward.containsKey("红包使用")){
+					红包.append("<tr>"+
+						"<td>"+count.getDayStr()+"<br>"+week+"</td>"+
+						"<td>"+reward.get("红包生成").get(1).get("次数").asInt()+"次<br>"+reward.get("红包生成").get(1).get("金额").asInt()+"元</td>"+
+						"<td>"+reward.get("红包生成").get(2).get("次数").asInt()+"次<br>"+reward.get("红包生成").get(2).get("金额").asInt()+"元</td>"+
+						"<td>"+reward.get("红包生成").get(1).get("错过").asInt()+"次</td>"+
+						"<td>"+reward.get("红包生成").get(2).get("错过").asInt()+"次</td>"+
+						"<td>"+reward.get("红包使用").get("次数").asInt()+"次<br>"+reward.get("红包使用").get("金额").asInt()+"元</td>"+
+						"</tr>");
+				}				
 			}
 			
 			body +=
@@ -225,6 +237,30 @@ public class Html_rate implements IHtml {
 						"</table>" +
 					"</div>" +
 				"</div>";
+			//红包记录
+			body +="<div align=\"center\" data-role=\"collapsible\">"+
+						"<h3 align=\"center\">红包统计</h3>" +
+						"<div>" +
+							"<table data-role=\"table\" id='reward' data-mode=\"columntoggle\" class=\"ui-responsive table-stroke\" border='1' >" +
+								"<thead>" +
+									"<tr>" +
+										"<th>时间</th>" +
+										"<th data-priority=\"3\">第一课生成</th>" +
+										"<th data-priority=\"4\">第二课生成</th>" +
+										"<th data-priority=\"5\">第一课错过</th>" +
+										"<th data-priority=\"6\">第二课错过</th>" +
+										"<th data-priority=\"7\">今日使用</th>" +										
+									"</tr>"+
+								"</thead>" +
+								"<tbody>" + 
+									红包.toString() + 
+								"</tbody>" +
+							"</table>" +
+						"</div>" +
+					"</div>";
+			
+			
+			
 			html = Http.getHtml(body);
 		}
 

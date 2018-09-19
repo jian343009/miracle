@@ -49,27 +49,27 @@ public class CMD13 implements ICMD {
 			cash = Global.getRandom((cash2 == 0 ? 10 : 11) - cash2) + 1;
 			data.getMap(lesson).put("金额", cash).put("状态", "未使用");
 			log.info( "device:"+deviceID+",生成的红包金额=" + cash);
-			//月记录统计
-			Count mc = Dao.getCountMonth();
-			Data mcData = Data.fromMap(mc.getDataStr());
+			//日记录统计
+			Count count = Dao.getCountToday();
+			Data mcData = Data.fromMap(count.getReward());
 			Data mcData2 = mcData.getMap("红包生成").getMap(lesson);
 			mcData2.put("次数", mcData2.get("次数").asInt()+1);
 			mcData2.put("金额", mcData2.get("金额").asInt()+cash);
-			mc.setDataStr(mcData.toString());
-			Dao.save(mc);
+			count.setReward(mcData.toString());			
+			Dao.save(count);
 		} else if ("错过红包".equals(name)) {
 			if (!data.get(lesson).get("状态").asString().isEmpty()) {
 				return backBuffer(2, "当前课程的红包状态是："+data.get(lesson).get("状态").asString());
 			}
 			data.getMap(lesson).put("状态", "已错过");
 			log.info("device:"+deviceID+"错过红包 = " + data.toString());
-			//月记录统计
-			Count mc = Dao.getCountMonth();
-			Data mcData = Data.fromMap(mc.getDataStr());
+			//日记录统计
+			Count count = Dao.getCountToday();
+			Data mcData = Data.fromMap(count.getReward());
 			Data mcData2 = mcData.getMap("红包生成").getMap(lesson);
 			mcData2.put("错过", mcData2.get("错过").asInt()+1);			
-			mc.setDataStr(mcData.toString());
-			Dao.save(mc);
+			count.setReward(mcData.toString());
+			Dao.save(count);
 		}
 		if (!"获取红包".equals(name)) {			
 			device.setReward(data.toString());

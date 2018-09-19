@@ -67,9 +67,7 @@ public class CMD100 implements ICMD {
 			log.info("firstDay = "+firstDay+",lastDay = "+ device.getLastDay() + ", today ="+ today);
 		}
 		if(device.getOpen() ==0){
-			if(channel.equals("华为平台")){
-				device.setBuyState(device.getBuyState() | 4);
-			}else if(channel.equals("阿里应用")){
+			if(!channel.equals("苹果商城")){
 				device.setBuyState(device.getBuyState() | 4);
 			}
 			if(Global.getInt(version) >=7){

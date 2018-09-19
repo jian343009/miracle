@@ -60,7 +60,8 @@ public class Html_heepay implements IHtml{
 				money = Global.getDouble(map.get("pay_amt"));
 				pay.setMoney((int)money);
 			}
-			if(channel.equals("团购")){
+			
+			if(channel.equals("团购功能屏蔽中")){
 				//id = tuan.getId()+"-"+lesson = mobile.getId()+"-"+total = 131068 + channel = "-团购",
 				Tuan tuan = Tuan.getByID(id);
 				if(tuan == null){
@@ -120,7 +121,7 @@ public class Html_heepay implements IHtml{
 					}
 				}
 				
-			}else if(channel.equals("众筹")){
+			}else if(channel.equals("众筹屏蔽中")){
 				Chou chou = Chou.getByID(id);
 				if(chou != null){
 					chou.setPay(chou.getPay() +1);
@@ -173,11 +174,11 @@ public class Html_heepay implements IHtml{
 					for(int les:new int[]{1,2}){
 						if("未使用".equals(dat.get(les).get("状态").asString())){
 							dat.getMap(les).put("状态", "已使用");	//改用户红包状态
-							Data data1=Data.fromMap(mc.getDataStr());//月记录红包使用
+							Data data1=Data.fromMap(count.getReward());//记录红包使用
 							Data data2=data1.getMap("红包使用");
 							data2.put("次数", data2.get("次数").asInt()+1);
 							data2.put("金额", data2.get("金额").asInt()+dat.get(les).get("金额").asInt());
-							mc.setDataStr(data1.toString());
+							count.setReward(data1.toString());
 						}
 					}
 					Dao.save(mc);				

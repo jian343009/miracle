@@ -27,6 +27,7 @@ public class CMD207 implements ICMD {
 		String name = Global.readUTF(data).trim();
 		String number = Global.readUTF(data).trim();
 		Device device = Dao.getDeviceExist(deviceID, "");
+		name = "功能屏蔽中";
 		if (device == null) {
 			return goBackBuffer(buf, 2, "未正常获取设备号");
 		}

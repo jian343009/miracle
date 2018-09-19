@@ -20,6 +20,7 @@ public class Count {
 	private double hwPay = 0;
 	private String detail = "";
 	private String dataStr = "";
+	private String reward = "";
 	private Data data = null;
 
 	public int getId() {
@@ -169,6 +170,14 @@ public class Count {
 
 	public void setDataStr(String dataStr) {
 		this.dataStr = dataStr;
+	}
+
+	public String getReward() {
+		return reward;
+	}
+
+	public void setReward(String reward) {
+		this.reward = reward;
 	}
 
 	public Data getData() {
