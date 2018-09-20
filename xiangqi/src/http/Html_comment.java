@@ -49,6 +49,9 @@ public class Html_comment extends Html {
 			};
 			String body="<script type=\"text/javascript\">"+
 					"function check(id){ "+
+					"if(id.split(\"rr\")[1]==\"delete\"){"+
+						"var r = confirm(\"确认删除？\");"+
+						"if(r==false){return;}}"+					
 			        "$.post('/comment',id,function(data){"+
 			           "var arr=data.split(\"&\");"+
 			           "$(\"#\" + arr[1]).text(arr[0]);"+
@@ -66,18 +69,18 @@ public class Html_comment extends Html {
 			        "} );}</script>";
 			body +="<div align=\"center\" data-role=\"collapsible\">"+
 		              "<h3 align=\"center\">评论审核</h3>" +
-				"<div><table data-role=\"table\" id='t5' data-mode=\"columntoggle\" class=\"ui-responsive table-stroke\" border='1' >"+
+				"<div><table data-role=\"table\" id='t1' data-mode=\"columntoggle\" class=\"ui-responsive table-stroke\" border='1' >"+
 		        "<thead>"+
 		        "<tr>"+
 		            "<th>id</th>"+
-		            "<th>用户名</th>"+
-		            "<th>时间</th>"+
-		            "<th>年龄</th>"+
-		            "<th width=\"360\">评论</th>"+
-		            "<th>审核结果</th>"+
-		            "<th>公开</th>"+
-		            "<th>不公开</th>"+
-		            "<th>删除</th>"+
+		            "<th data-priority=\"2\">用户名</th>"+
+		            "<th data-priority=\"2\">时间</th>"+
+		            "<th data-priority=\"2\">年龄</th>"+
+		            "<th data-priority=\"1\"width=\"360\">评论</th>"+
+		            "<th data-priority=\"1\">审核结果</th>"+
+		            "<th data-priority=\"7\">公开</th>"+
+		            "<th data-priority=\"8\">不公开</th>"+
+		            "<th data-priority=\"9\">删除</th>"+
 		        "</tr>"+
 		        "</thead>"+
 		        "<tbody>";
