@@ -21,6 +21,8 @@ public class Html_comment extends Html {
 				sb.append("<tr>"+
 					"<th>"+co.getId()+"</th>"+
 					"<th>"+co.getUserName()+"</th>"+
+					"<th>"+co.getDevice()+"</th>"+
+					"<th>"+co.getUserMail()+"</th>"+					
 					"<th>"+co.getTimeStr()+"</th>"+
 					"<th>"+co.getUserAge()+"</th>"+
 					"<th>"+co.getContent()+"</th>"+
@@ -38,6 +40,8 @@ public class Html_comment extends Html {
 				已审核评论.append("<tr>"+
 					"<th>"+co.getId()+"</th>"+
 					"<th>"+co.getUserName()+"</th>"+
+					"<th>"+co.getDevice()+"</th>"+
+					"<th>"+co.getUserMail()+"</th>"+
 					"<th>"+co.getTimeStr()+"</th>"+
 					"<th>"+co.getUserAge()+"</th>"+
 					"<th>"+co.getContent()+"</th>"+
@@ -72,21 +76,22 @@ public class Html_comment extends Html {
 				"<div><table data-role=\"table\" id='t1' data-mode=\"columntoggle\" class=\"ui-responsive table-stroke\" border='1' >"+
 		        "<thead>"+
 		        "<tr>"+
-		            "<th>id</th>"+
-		            "<th data-priority=\"2\">用户名</th>"+
+		            "<th width=\"40\">id</th>"+
+		            "<th data-priority=\"2\" width=\"55\">用户名</th>"+
+		            "<th data-priority=\"2\" width=\"39\">devID</th>"+
+		            "<th data-priority=\"2\" width=\"45\">联系方式</th>"+
 		            "<th data-priority=\"2\">时间</th>"+
-		            "<th data-priority=\"2\">年龄</th>"+
-		            "<th data-priority=\"1\"width=\"360\">评论</th>"+
-		            "<th data-priority=\"1\">审核结果</th>"+
-		            "<th data-priority=\"7\">公开</th>"+
-		            "<th data-priority=\"8\">不公开</th>"+
-		            "<th data-priority=\"9\">删除</th>"+
+		            "<th data-priority=\"2\" width=\"39\">年龄</th>"+
+		            "<th data-priority=\"1\">评论</th>"+
+		            "<th data-priority=\"1\" width=\"55\">公开否</th>"+
+		            "<th data-priority=\"7\" width=\"39\">公开</th>"+
+		            "<th data-priority=\"8\" width=\"55\">不公开</th>"+
+		            "<th data-priority=\"9\" width=\"39\">删除</th>"+
 		        "</tr>"+
 		        "</thead>"+
 		        "<tbody>";
 			
-			body +=sb.toString()+"<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>"+
-					"<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>"+
+			body +=sb.toString()+"<tr><th>-</th><th>-</th><th>-</th><th>-</th><th>-</th><th>-</th><th>-</th><th>-</th><th>-</th><th>-</th><th>-</th></tr>"+
 					已审核评论.toString()+"</tbody></table></body></div></div>";
 			html = Http.getHtml(body);
 		}else if(content.trim().split("rr").length == 2){
