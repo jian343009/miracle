@@ -220,11 +220,19 @@ public class Count {
 		} else {
 			dev += deviceID % 2;
 		}
+		//String 支付 = cash > 12 ?"支付":"多课支付";
 		Data dat = this.getData().getMap("支付");
 		dat.getMap("总计次数").put(dev, dat.get("总计次数").get(dev).asInt() + 1);
 		dat.getMap("总计金额").put(dev, dat.get("总计金额").get(dev).asInt() + cash);
 		dat.getMap("详细次数").getMap(channel).put(dev, dat.get("详细次数").getMap(channel).get(dev).asInt() + 1);
 		dat.getMap("详细金额").getMap(channel).put(dev, dat.get("详细金额").getMap(channel).get(dev).asInt() + cash);
+		if(cash > 12){
+			dev = "多课支付";
+			dat.getMap("总计次数").put(dev, dat.get("总计次数").get(dev).asInt() + 1);
+			dat.getMap("总计金额").put(dev, dat.get("总计金额").get(dev).asInt() + cash);
+			dat.getMap("详细次数").getMap(channel).put(dev, dat.get("详细次数").getMap(channel).get(dev).asInt() + 1);
+			dat.getMap("详细金额").getMap(channel).put(dev, dat.get("详细金额").getMap(channel).get(dev).asInt() + cash);
+		}		
 		this.dataStr = this.getData().toString();
 	}
 	

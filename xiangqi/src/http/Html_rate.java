@@ -119,6 +119,11 @@ public class Html_rate implements IHtml {
 				if("星期日".equals(week) || "星期六".equals(week)){
 					color = "<tr class=\""+week+"\" bgcolor=\"#FFFFBB\">";
 				}
+				String 多课次="",多课额="";			
+				if(data.get("支付").get("总计次数").containsKey("多课支付")){
+					多课次 = data.get("支付").get("总计次数").get("多课支付").asInt()+"次<br>";
+				    多课额 = data.get("支付").get("总计金额").get("多课支付").asInt()+"元";
+				}				
 				sb.append(color +
 						"<td>"+count.getDayStr()+"<br>"+week+"</td>" +
 						"<td>"+count.getOpen()+"<br>是7:"+(open - otherOpen)+"<br>非7:"+otherOpen+"</td>" +
@@ -127,11 +132,12 @@ public class Html_rate implements IHtml {
 							+this.show奇偶(data.get("返回").get(1).get("详细"))+"</td>" +
 						"<td>"+count.getReturnNum(2)+day2+"</td>" +
 						"<td>"+count.getReturnNum(7)+day7+"</td>" +
-						"<td>"+count.getPay()+this.show奇偶(data.get("支付").get("总计次数"))+"</td>"+
-						"<td>"+count.getNewPay()+"</td>" +
-						"<td>"+count.getTotalPay()+this.show奇偶(data.get("支付").get("总计金额"))+"</td>" +
-						"<td>"+平均支付率+"%</td>" +
+						"<td>"+count.getPay()+this.show奇偶(data.get("支付").get("总计次数"))+"</td>"+//支付次数		
+						"<td>"+count.getTotalPay()+this.show奇偶(data.get("支付").get("总计金额"))+"</td>" +//支付金额
+						"<td>"+多课次+多课额+"</td>" +//多课支付
+						"<td>"+平均支付率+"%"+"</td>" +
 						"<td>"+平均支付额+"</td>" +
+						"<td>"+count.getNewPay()+"</td>" +
 						"<td>"+count.getAliPay()+this.show奇偶(detail.get("支付宝"))+"</td>" +
 						"<td>"+count.getWxPay()+this.show奇偶(detail.get("微信支付"))+"</td>" +
 						"<td>"+count.getApplePay()+this.show奇偶(detail.get("苹果支付"))+"</td>" +
@@ -173,11 +179,12 @@ public class Html_rate implements IHtml {
 									"<th data-priority=\"4\">次日返回</th>" +
 									"<th data-priority=\"4\">2~6返回</th>" +
 									"<th data-priority=\"4\">7~返回</th>" +
-									"<th data-priority=\"5\">支付次数</th>" +
-									"<th data-priority=\"8\">新增支付</th>" +
-									"<th>支付金额</th>" +
+									"<th data-priority=\"5\">支付次数</th>" +									
+									"<th data-priority=\"2\">支付金额</th>" +
+									"<th data-priority=\"5\">多课支付</th>" +	
 									"<th data-priority=\"9\">平均支付率</th>" +
 									"<th data-priority=\"9\">平均支付额</th>" +
+									"<th data-priority=\"8\">新增支付</th>" +
 									"<th data-priority=\"8\">支付宝</th>" +
 									"<th data-priority=\"9\">微信支付</th>" +
 									"<th data-priority=\"9\">苹果支付</th>" +
