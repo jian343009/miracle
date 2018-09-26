@@ -122,41 +122,26 @@ public class Html_record implements IHtml {
 							              	  "<th>日期</th>" +
 								              "<th>渠道</th>" +
 								              "<th data-priority=\"1\">打开设备</th>" +
-								              "<th data-priority=\"1\">新增设备</th>" +
-								              "<th data-priority=\"1\">设备打开时段</th>" +
-								              "<th data-priority=\"1\">单课支付(打开#成功)</th>" +
-								              "<th data-priority=\"1\">多课支付(打开#成功)</th>" +
-								              "<th data-priority=\"1\">第1课学习和练习(开始#结束#完成)</th>" +
-								              
-								              "<th data-priority=\"1\">第2课学习和练习(开始#结束#完成)</th>" +
-								              
-												"<th data-priority=\"1\">第3课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第4课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第5课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第6课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第7课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第8课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第9课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第10课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第11课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第12课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第13课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第14课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第15课学习和练习(开始#结束#完成)</th>" +
-												
-												"<th data-priority=\"1\">第16课学习和练习(开始#结束#完成)</th>" +
+								              "<th data-priority=\"2\">新增设备</th>" +
+								              "<th data-priority=\"2\">设备打开时段</th>" +
+								              "<th data-priority=\"2\">单课支付(打开#成功)</th>" +
+								              "<th data-priority=\"2\">多课支付(打开#成功)</th>" +
+								              "<th data-priority=\"3\">第1课学习和练习(开始#结束#完成)</th>" +								              
+								              "<th data-priority=\"3\">第2课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"5\">第3课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第4课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第5课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第6课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第7课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第8课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第9课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第10课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第11课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第12课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第13课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第14课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第15课学习和练习(开始#结束#完成)</th>" +
+												"<th data-priority=\"6\">第16课学习和练习(开始#结束#完成)</th>" +
 							              "</tr>"+
 						              "</thead>" +
 						              "<tbody id='tb2'>" + 

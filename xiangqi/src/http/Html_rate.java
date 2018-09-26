@@ -67,19 +67,19 @@ public class Html_rate implements IHtml {
 									"<tr>" +
 										"<th>渠道</th>" +
 										"<th data-priority=\"2\">时间</th>" +
-										"<th data-priority=\"3\">打开设备</th>" +
-										"<th data-priority=\"4\">新增设备</th>" +
-										"<th data-priority=\"4\">次日返回</th>" +
-										"<th data-priority=\"4\">2~6返回</th>" +
-										"<th data-priority=\"4\">7~返回</th>" +
-										"<th data-priority=\"5\">支付次数</th>" +
-										"<th data-priority=\"6\">新增支付次数</th>" +
+										"<th data-priority=\"1\">打开设备</th>" +
+										"<th data-priority=\"4\">新增</th>" +
+										"<th data-priority=\"3\">次日返回</th>" +
+										"<th data-priority=\"5\">2~6返回</th>" +
+										"<th data-priority=\"6\">7~返回</th>" +
+										"<th data-priority=\"4\">支付次数</th>" +
+										"<th data-priority=\"4\">新增支付次数</th>" +
 										"<th>支付金额</th>" +
-										"<th data-priority=\"8\">支付宝</th>" +
-										"<th data-priority=\"9\">微信支付</th>" +
-										"<th data-priority=\"9\">苹果支付</th>" +
-										"<th data-priority=\"9\">华为支付</th>" +
-										"<th data-priority=\"9\">其他支付</th>" +
+										"<th data-priority=\"5\">支付宝</th>" +
+										"<th data-priority=\"5\">微信支付</th>" +
+										"<th data-priority=\"6\">苹果支付</th>" +
+										"<th data-priority=\"5\">华为支付</th>" +
+										"<th data-priority=\"6\">其他支付</th>" +
 									"</tr>"+
 								"</thead>" +
 								"<tbody id='detail'>" + 
@@ -174,22 +174,22 @@ public class Html_rate implements IHtml {
 							"<thead>" +
 								"<tr>" +
 									"<th>时间</th>" +
-									"<th data-priority=\"3\">打开设备</th>" +
-									"<th data-priority=\"4\">新增设备</th>" +
+									"<th data-priority=\"2\">打开设备</th>" +
+									"<th data-priority=\"3\">新增</th>" +
 									"<th data-priority=\"4\">次日返回</th>" +
-									"<th data-priority=\"4\">2~6返回</th>" +
-									"<th data-priority=\"4\">7~返回</th>" +
-									"<th data-priority=\"5\">支付次数</th>" +									
-									"<th data-priority=\"2\">支付金额</th>" +
-									"<th data-priority=\"5\">多课支付</th>" +	
-									"<th data-priority=\"9\">平均支付率</th>" +
-									"<th data-priority=\"9\">平均支付额</th>" +
-									"<th data-priority=\"8\">新增支付</th>" +
-									"<th data-priority=\"8\">支付宝</th>" +
-									"<th data-priority=\"9\">微信支付</th>" +
-									"<th data-priority=\"9\">苹果支付</th>" +
-									"<th data-priority=\"9\">华为支付</th>" +
-									"<th data-priority=\"9\">其他支付</th>" +
+									"<th data-priority=\"5\">2~6返回</th>" +
+									"<th data-priority=\"6\">7~返回</th>" +
+									"<th data-priority=\"1\">支付次数</th>" +									
+									"<th data-priority=\"1\">支付金额</th>" +
+									"<th data-priority=\"3\">多课支付</th>" +	
+									"<th data-priority=\"3\">平均支付率</th>" +
+									"<th data-priority=\"3\">平均支付额</th>" +
+									"<th data-priority=\"6\">新增支付</th>" +
+									"<th data-priority=\"5\">支付宝</th>" +
+									"<th data-priority=\"5\">微信支付</th>" +
+									"<th data-priority=\"6\">苹果支付</th>" +
+									"<th data-priority=\"4\">华为支付</th>" +
+									"<th data-priority=\"6\">其他支付</th>" +
 								"</tr>"+
 							"</thead>" +
 							"<tbody>" + 
@@ -226,16 +226,16 @@ public class Html_rate implements IHtml {
 							"<thead>" +
 								"<tr>" +
 									"<th>时间</th>" +
-									"<th data-priority=\"3\">打开设备</th>" +
-									"<th data-priority=\"4\">新增设备</th>" +
-									"<th data-priority=\"5\">支付次数</th>" +
+									"<th data-priority=\"1\">打开设备</th>" +
+									"<th data-priority=\"3\">新增设备</th>" +
+									"<th data-priority=\"2\">支付次数</th>" +
 									"<th data-priority=\"6\">新增支付次数</th>" +
 									"<th>支付金额</th>" +
-									"<th data-priority=\"8\">支付宝</th>" +
-									"<th data-priority=\"9\">微信支付</th>" +
-									"<th data-priority=\"9\">苹果支付</th>" +
-									"<th data-priority=\"9\">华为支付</th>" +
-									"<th data-priority=\"9\">其他支付</th>" +
+									"<th data-priority=\"5\">支付宝</th>" +
+									"<th data-priority=\"5\">微信支付</th>" +
+									"<th data-priority=\"6\">苹果支付</th>" +
+									"<th data-priority=\"5\">华为支付</th>" +
+									"<th data-priority=\"6\">其他支付</th>" +
 								"</tr>"+
 							"</thead>" +
 							"<tbody>" + 
@@ -252,11 +252,11 @@ public class Html_rate implements IHtml {
 								"<thead>" +
 									"<tr>" +
 										"<th>时间</th>" +
-										"<th data-priority=\"3\">第一课生成</th>" +
-										"<th data-priority=\"4\">第二课生成</th>" +
-										"<th data-priority=\"5\">第一课错过</th>" +
-										"<th data-priority=\"6\">第二课错过</th>" +
-										"<th data-priority=\"7\">今日使用</th>" +										
+										"<th data-priority=\"2\">第一课生成</th>" +
+										"<th data-priority=\"2\">第二课生成</th>" +
+										"<th data-priority=\"3\">第一课错过</th>" +
+										"<th data-priority=\"3\">第二课错过</th>" +
+										"<th data-priority=\"1\">今日使用</th>" +										
 									"</tr>"+
 								"</thead>" +
 								"<tbody>" + 
