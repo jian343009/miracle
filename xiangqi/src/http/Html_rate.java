@@ -152,7 +152,8 @@ public class Html_rate implements IHtml {
 						"<td>"+reward.get("红包生成").get(2).get("次数").asInt()+"次<br>"+reward.get("红包生成").get(2).get("金额").asInt()+"元</td>"+
 						"<td>"+reward.get("红包生成").get(1).get("错过").asInt()+"次</td>"+
 						"<td>"+reward.get("红包生成").get(2).get("错过").asInt()+"次</td>"+
-						"<td>"+reward.get("红包使用").get("次数").asInt()+"次<br>"+reward.get("红包使用").get("金额").asInt()+"元</td>"+
+						"<td>"+reward.get("红包使用").get("单课次数").asInt()+"次<br>"+reward.get("红包使用").get("单课金额").asInt()+"元</td>"+
+						"<td>"+reward.get("红包使用").get("多课次数").asInt()+"次<br>"+reward.get("红包使用").get("多课金额").asInt()+"元</td>"+
 						"</tr>");
 				}				
 			}
@@ -256,7 +257,8 @@ public class Html_rate implements IHtml {
 										"<th data-priority=\"2\">第二课生成</th>" +
 										"<th data-priority=\"3\">第一课错过</th>" +
 										"<th data-priority=\"3\">第二课错过</th>" +
-										"<th data-priority=\"1\">今日使用</th>" +										
+										"<th data-priority=\"1\">单课使用</th>" +	
+										"<th data-priority=\"1\">多课使用</th>" +	
 									"</tr>"+
 								"</thead>" +
 								"<tbody>" + 

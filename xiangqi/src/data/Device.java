@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import dao.Dao;
+import dao.Data;
 import main.Global;
 
 @Entity
@@ -187,6 +189,37 @@ public class Device {
 	@Override
 	public String toString() {
 		return this.id+"#"+this.imei;
+	}
+	/**
+	 * @param money 支付金额
+	 */
+	public void 使用红包(int money,Count count){
+		if(!this.reward.contains("未使用")){
+			return;//无可用红包直接返回
+		}
+		Data dat = Data.fromMap(this.getReward());
+		int 红包使用金额=0;
+		for(int les:new int[]{1,2}){
+			if("未使用".equals(dat.get(les).get("状态").asString())){
+				dat.getMap(les).put("状态", "已使用");	//改用户红包状态
+				红包使用金额 += dat.get(les).get("金额").asInt();
+			}
+		}
+		this.setReward(dat.toString());
+		if(红包使用金额 >= 1){
+			Data data1=Data.fromMap(count.getReward());//记录红包使用
+			Data data2=data1.getMap("红包使用");
+			data2.put("次数", data2.get("次数").asInt()+1);
+			data2.put("金额", data2.get("金额").asInt()+红包使用金额);
+			if(money < 12){//区分单课和多课使用
+				data2.put("单课次数", data2.get("单课次数").asInt()+1);
+				data2.put("单课金额", data2.get("单课金额").asInt()+红包使用金额);
+			}else{
+				data2.put("多课次数", data2.get("多课次数").asInt()+1);
+				data2.put("多课金额", data2.get("多课金额").asInt()+红包使用金额);
+			}
+			count.setReward(data1.toString());
+		}
 	}
 	
 }

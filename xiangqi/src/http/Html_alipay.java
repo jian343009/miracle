@@ -73,7 +73,7 @@ public class Html_alipay implements IHtml {
 			pay.setTradeStatus(status);
 			pay.setMoney(money);
 			boolean paysuccuss = status.equals("TRADE_SUCCESS");
-			if(paysuccuss && money >1){
+			if(paysuccuss && money >= 1){
 				Device wd = Dao.getDevice(deviceID, imei, "Html_alipay");
 				
 				Count mc = Dao.getCountMonth();
@@ -97,23 +97,12 @@ public class Html_alipay implements IHtml {
 				}else{
 					count.add奇偶付费((int)money, 0, "支付宝");
 				}
+				wd.使用红包((int)money, count);
 				Dao.save(count);
 				ce.setTotalPay(ce.getTotalPay() + money);
 				ce.setAliPay(ce.getAliPay() + money);							
 				Dao.save(ce);
-				Data dat = Data.fromMap(wd.getReward());
-				for(int les:new int[]{1,2}){
-					if("未使用".equals(dat.get(les).get("状态").asString())){
-						dat.getMap(les).put("状态", "已使用");	//改用户红包状态
-						Data data1=Data.fromMap(count.getReward());//记录红包使用
-						Data data2=data1.getMap("红包使用");
-						data2.put("次数", data2.get("次数").asInt()+1);
-						data2.put("金额", data2.get("金额").asInt()+dat.get(les).get("金额").asInt());
-						count.setReward(data1.toString());
-					}
-				}
-				Dao.save(mc);					
-				wd.setReward(dat.toString());
+				Dao.save(mc);
 				if(lesson ==0){
 					wd.setLastDay(ServerTimer.distOfDay());
 					wd.setLastTime(ServerTimer.getFull());

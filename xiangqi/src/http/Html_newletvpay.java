@@ -89,21 +89,10 @@ public class Html_newletvpay extends Html{
 					count.add奇偶付费((int)money, wd.getId(), "其它支付");
 					log.info(count.getDataStr());
 				}
+				wd.使用红包((int)money, count);
 				Dao.save(count);
 				Dao.save(ce);
-				Data dat = Data.fromMap(wd.getReward());
-				for(int les:new int[]{1,2}){
-					if("未使用".equals(dat.get(les).get("状态").asString())){
-						dat.getMap(les).put("状态", "已使用");	//改用户红包状态
-						Data data1=Data.fromMap(count.getReward());//记录红包使用
-						Data data2=data1.getMap("红包使用");
-						data2.put("次数", data2.get("次数").asInt()+1);
-						data2.put("金额", data2.get("金额").asInt()+dat.get(les).get("金额").asInt());
-						count.setReward(data1.toString());
-					}
-				}
 				Dao.save(mc);					
-				wd.setReward(dat.toString());
 				if(lesson ==0){
 					wd.setLastDay(ServerTimer.distOfDay());
 					wd.setLastTime(ServerTimer.getFull());
