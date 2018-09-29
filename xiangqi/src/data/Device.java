@@ -194,7 +194,7 @@ public class Device {
 	 * @param money 支付金额
 	 */
 	public void 使用红包(int money,Count count){
-		if(!this.reward.contains("未使用")){
+		if(this.reward == null || !this.reward.contains("未使用")){
 			return;//无可用红包直接返回
 		}
 		Data dat = Data.fromMap(this.getReward());
