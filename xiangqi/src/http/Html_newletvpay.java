@@ -72,7 +72,7 @@ public class Html_newletvpay extends Html{
 				count.setPay(count.getPay() +1);
 				ChannelEveryday ce = Dao.getChannelEverydayToday(channel);
 				ce.setPay(ce.getPay() +1);
-				if(wd.getBuyState() ==0){
+				if(wd.getBuy() ==0){
 					mc.setNewPay(mc.getNewPay() +1);
 					count.setNewPay(count.getNewPay() +1);
 					ce.setNewPay(ce.getNewPay() +1);

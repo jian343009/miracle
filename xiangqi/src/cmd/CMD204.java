@@ -107,7 +107,7 @@ public class CMD204 implements ICMD {
 					count.setPay(count.getPay() +1);
 					ChannelEveryday ce = Dao.getChannelEverydayToday("苹果商城");
 					ce.setPay(ce.getPay() +1);
-					if(device.getBuyState() ==0){
+					if(device.getBuy() ==0){
 						mc.setNewPay(mc.getNewPay() +1);
 						count.setNewPay(count.getNewPay() +1);
 						ce.setNewPay(ce.getNewPay() +1);
