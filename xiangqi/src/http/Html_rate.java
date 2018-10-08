@@ -114,8 +114,8 @@ public class Html_rate implements IHtml {
 					 open += data.get("返回").get(i).get("共计").asInt();
 				}
 				String day2,day7;
-				day2 = "<br>偶:"+(返回(data,2,0)+返回(data,4,0)) +"<br>奇"+(返回(data,2,1)+返回(data,4,1));
-				day7 = "<br>偶:"+(返回(data,8,0)+返回(data,15,0)) +"<br>奇"+(返回(data,8,1)+返回(data,15,1));
+				day2 = "<br>偶:"+(返回(data,2,0)+返回(data,4,0)) +"<br>奇:"+(返回(data,2,1)+返回(data,4,1));
+				day7 = "<br>偶:"+(返回(data,8,0)+返回(data,15,0)) +"<br>奇:"+(返回(data,8,1)+返回(data,15,1));
 				//计算付费率
 				String 平均支付率 = "",平均支付额 = "";
 				if(count.getOpen() > 0){
@@ -159,12 +159,14 @@ public class Html_rate implements IHtml {
 					Data rew生 =reward.get("红包生成"),rew用=reward.get("红包使用");
 					红包.append("<tr>"+
 						"<td>"+简化日期(count.getDayStr())+week+"</td>"+//时间
+						"<td>"+rew生.get(1).get("错过").asInt()+"</td>"+
 						"<td>"+rew生.get(1).get("次数").asInt()+"</td>"+
 						"<td>"+rew生.get(1).get("金额").asInt()+"</td>"+
-						"<td>"+rew生.get(1).get("错过").asInt()+"</td>"+
+						
+						"<td>"+rew生.get(2).get("错过").asInt()+"</td>"+
 						"<td>"+rew生.get(2).get("次数").asInt()+"</td>"+
 						"<td>"+rew生.get(2).get("金额").asInt()+"</td>"+
-						"<td>"+rew生.get(2).get("错过").asInt()+"</td>"+
+						
 						"<td>"+rew用.get("次数").asInt()+"</td>"+
 						"<td>"+rew用.get("金额").asInt()+"</td>"+
 						"<td>"+rew用.get("单课次数").asInt()+"</td>"+
@@ -199,7 +201,7 @@ public class Html_rate implements IHtml {
 									"<th data-priority=\"1\">支付<br>次数</th>\n" +
 									"<th data-priority=\"1\">支付<br>金额</th>\n" +
 									"<th data-priority=\"3\">多课<br>支付</th>\n" +	
-									"<th data-priority=\"3\"><br>支付率</th>\n" +
+									"<th data-priority=\"3\">日均<br>支付率</th>\n" +
 									"<th data-priority=\"3\">平均<br>支付额</th>\n" +
 									"<th data-priority=\"6\">新增<br>支付</th>\n" +
 									"<th data-priority=\"5\">支付宝<br>支付</th>\n" +
@@ -219,12 +221,14 @@ public class Html_rate implements IHtml {
 			list2 = Dao.getAllMonthCount();
 			for(int m=0;m<list2.size();m++){
 				Count count = list2.get(m);
+				String 付费率 = (count.getOpen() > 0)?new DecimalFormat("0.0").format((float)count.getPay()*100/count.getOpen()):"";			
 				每月统计 += "<tr>" +
 						"<td>"+count.getDayStr()+"</td>" +
 						"<td>"+count.getOpen()+"</td>" +
 						"<td>"+count.getNewDevice()+"</td>" +
 						"<td>"+count.getPay()+"</td>"+
 						"<td>"+count.getNewPay()+"</td>" +
+						"<td>"+付费率+"%"+"</td>" +
 						"<td>"+count.getTotalPay()+"</td>" +
 						"<td>"+count.getAliPay()+"</td>" +
 						"<td>"+count.getWxPay()+"</td>" +
@@ -245,6 +249,7 @@ public class Html_rate implements IHtml {
 									"<th data-priority=\"3\">新增<br>设备</th>\n" +
 									"<th data-priority=\"2\">支付<br>次数</th>\n" +
 									"<th data-priority=\"6\">新增<br>支付</th>\n" +
+									"<th>月均<br>付费率</th>\n" +
 									"<th>支付<br>金额</th>\n" +
 									"<th data-priority=\"5\">支付宝<br>支付</th>\n" +
 									"<th data-priority=\"5\">微信<br>支付</th>\n" +
@@ -274,12 +279,14 @@ public class Html_rate implements IHtml {
 										"<th colspan=\"2\" data-priority=\"1\" style=\"text-align:center;\" >多课使用</th>\n" +
 									"</tr>\n"+
 									"<tr>\n" +
-										"<th>生成</th>\n" +
-										"<th>金额</th>\n" +
 										"<th>错过</th>\n" +
 										"<th>生成</th>\n" +
 										"<th>金额</th>\n" +
+										
 										"<th>错过</th>\n" +
+										"<th>生成</th>\n" +
+										"<th>金额</th>\n" +
+									
 										"<th>次数</th>\n" +//总计
 										"<th>金额</th>\n" +
 										"<th>次数</th>\n" +//单课

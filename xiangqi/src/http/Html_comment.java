@@ -34,11 +34,11 @@ public class Html_comment extends Html {
 					"<th>"+co.getUserMail()+"</th>"+					
 					"<th>"+评论时间+"</th>"+
 					"<th>"+co.getUserAge()+"</th>"+
-					"<th>"+用户名+co.getContent()+"</th>"+
 					"<th><label id='"+co.getId()+"' style=\"color:#FF0000;\">待审核</label></th>"+
 					"<th><label id='"+co.getId()+"rrtrue' onclick='check(id)' style=\"color:green; border-style:groove\">公开</label>"+
 						"<br id='"+co.getId()+"br'><label id='"+co.getId()+"rrfalse' onclick='check(id)' "+
-						"style=\"color:#888888; border-style:groove\">不公开</label></th>"+
+						"style=\"color:#888888; border-style:groove\">不公</label></th>"+
+					"<th>"+用户名+co.getContent()+"</th>"+
 					"<th><label id='"+co.getId()+"rrdelete' onclick='check(id)' style=\"color:#888888; border-style:groove\">删除</label></th>"+
 					"<tr>");
 			};
@@ -63,10 +63,10 @@ public class Html_comment extends Html {
 					"<th>"+co.getUserMail()+"</th>"+
 					"<th>"+评论时间+"</th>"+
 					"<th>"+co.getUserAge()+"</th>"+
-					"<th>"+用户名+co.getContent()+"</th>"+
 					"<th><label id='"+co.getId()+"' style=\"color:"+审核结果颜色+";\">"+状态+"</label></th>"+//状态
 					"<th><label id='"+co.getId()+"rrtrue' onclick='check(id)' style=\"color:green; border-style:ridge\" "+公开+">公开</label>"+
-					" <label id='"+co.getId()+"rrfalse' onclick='check(id)' style=\"color:#888888; border-style:ridge\" "+不公开+">不公开</label></th>"+
+					" <label id='"+co.getId()+"rrfalse' onclick='check(id)' style=\"color:#888888; border-style:ridge\" "+不公开+">不公</label></th>"+
+					"<th>"+用户名+co.getContent()+"</th>"+//评论内容
 					"<th><label id='"+co.getId()+"rrdelete' onclick='check(id)' style=\"color:#888888; border-style:ridge\">删除</label></th>"+
 					"<tr>");
 			};
@@ -100,15 +100,17 @@ public class Html_comment extends Html {
 		        "<thead>"+
 		        "<tr>"+
 		            "<th data-priority=\"4\">id</th>"+
+		        
 		           //"<th data-priority=\"9\" width=\"55\">用户名</th>"+
 		            "<th data-priority=\"3\" width=\"39\">devID</th>"+
 		            "<th data-priority=\"6\" width=\"45\">联系方式</th>"+
 		            "<th data-priority=\"5\">时间</th>"+
 		            "<th data-priority=\"6\" width=\"39\">年龄</th>"+
-		            "<th data-priority=\"1\">评论</th>"+
 		            "<th data-priority=\"1\" width=\"55\">公开否</th>"+
-		           //"<th data-priority=\"7\" width=\"39\">公开</th>"+
 		            "<th data-priority=\"2\" width=\"55\">审核</th>"+
+		            "<th data-priority=\"1\">评论</th>"+
+		            
+		           //"<th data-priority=\"7\" width=\"39\">公开</th>"+
 		            "<th data-priority=\"3\" width=\"39\">删除</th>"+
 		        "</tr>"+
 		        "</thead>"+
