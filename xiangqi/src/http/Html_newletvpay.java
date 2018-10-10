@@ -84,10 +84,10 @@ public class Html_newletvpay extends Html{
 				ce.setTotalPay(ce.getTotalPay() + money);
 				count.setWiiPay(count.getWiiPay() + money);
 				ce.setWiiPay(ce.getWiiPay() + money);
-				log.info("version = "+wd.getVersion());
 				if(Global.getInt(wd.getVersion()) >= 7){
-					count.add奇偶付费((int)money, wd.getId(), "其它支付");
-					log.info(count.getDataStr());
+					count.add奇偶付费((int)money, wd.getId(), "苹果支付");						
+				}else{
+					count.add奇偶付费((int)money, 0, "苹果支付");
 				}
 				wd.使用红包((int)money, count);
 				Dao.save(count);
