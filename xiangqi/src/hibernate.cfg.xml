@@ -8,11 +8,11 @@
         
         <!-- <property name="hibernate.connection.url">jdbc:mysql://localhost/miracle_xiangqi</property> -->
        	<!-- 测试 -->
-        <!-- <property name="hibernate.connection.url">jdbc:mysql://rds1d47eu647k5j8pa7o.mysql.rds.aliyuncs.com/test_xiangqi</property>
-         -->
- 	  	<!-- 正式  记得改CMD10和117行的url -->   
-        <property name="hibernate.connection.url">jdbc:mysql://rdsavq7n2avq7n2.mysql.rds.aliyuncs.com/miracle_xiangqi</property>
+        <property name="hibernate.connection.url">jdbc:mysql://rds1d47eu647k5j8pa7o.mysql.rds.aliyuncs.com/test_xiangqi</property>
         
+ 	  	<!-- 正式  记得改CMD10和117行的url -->   
+       <!--  <property name="hibernate.connection.url">jdbc:mysql://rdsavq7n2avq7n2.mysql.rds.aliyuncs.com/miracle_xiangqi</property>
+         -->
         <property name="hibernate.connection.password">miracle</property>
         <property name="hibernate.connection.username">cdmrk</property>
         <property name="hibernate.connection.useUnicode">true</property>
@@ -42,6 +42,7 @@
      <mapping resource="data/ChannelEveryday.xml" />
      <mapping resource="data/Count.xml" />
      <mapping class="data.Device" />
+     <mapping class="data.Channels" />
      <mapping resource="data/LjPay.xml" />
      <mapping resource="data/Record.xml" />
      <mapping resource="data/StepCount.xml" />

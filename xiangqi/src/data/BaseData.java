@@ -12,6 +12,8 @@ public class BaseData {
 	public static final String 微信网页支付地址 = "微信网页支付地址";
 	public static final String 强制全部解锁 = "强制全部解锁";
 	public static final String 测试开关 = "测试开关";
+	public static final String 可用支付方式 = "可用支付方式";//对应数据的name
+	
 	
 	private int id;
 	private String name = "";
@@ -53,4 +55,10 @@ public class BaseData {
 		}
 		return "";
 	}
+	//已知的渠道
+	public static final String[] 全部渠道={"oppo平台","vivo平台","华为平台","苹果商城",				
+			"小米平台","三星平台","金立平台","联想平台","阿里应用","安智市场","机锋市场","百度商城",
+			"360商城","pconline","搜狗助手","应用宝","应用汇","网页下载","软件互推","联通商城",				
+			"乐视平台","乐视电视","视频教育","视频儿童"};
+
 }
