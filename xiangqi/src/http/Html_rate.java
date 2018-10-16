@@ -18,17 +18,14 @@ import main.ServerTimer;
 
 public class Html_rate implements IHtml {
 	private static final Logger log = Logger.getLogger(Html_rate.class.getName());
-
+	
 	@Override
 	public String getHtml(String content) {
 		String bgcolor="#F5F5F5";//默认背景色
+		int 错色码 = 1;//控制相邻行的错色
 		//模糊查询功能↓
 		if(!content.isEmpty()){
-			String[] 全部渠道={"oppo平台","vivo平台","华为平台","苹果商城",				
-				"小米平台","三星平台","金立平台","联想平台","阿里应用","安智市场","机锋市场","百度商城",
-				"360商城","pconline","搜狗助手","应用宝","应用汇","网页下载","软件互推","联通商城",				
-				"乐视平台","乐视电视","视频教育","视频儿童"};
-			for(String str:全部渠道){
+			for(String str:BaseData.全部渠道){
 				content = str.contains(content)?str:content;
 							}		}
 		//模糊查询功能↑
@@ -107,15 +104,23 @@ public class Html_rate implements IHtml {
 				Count count = list2.get(m);
 				Count next = list2.get(m+1);
 				Data data = list2.get(m).getData();
-				//验证返回记录
-				int open = 0 , otherOpen = 0;
-				for(int i:new int[]{0,1,2,4,8,15}){					 
-					 otherOpen += data.get("返回").get(i).get("详细").get("其它版本").asInt();
-					 open += data.get("返回").get(i).get("共计").asInt();
+				
+				//多日奇偶返回
+				String day2="",day7="",奇偶打开设备="",奇偶新增设备="";
+				if(data.size() > 0){//有记录
+					//验证返回记录	
+					int open = 0 , otherOpen = 0;
+					for(int i:new int[]{0,1,2,4,8,15}){					 
+						 otherOpen += data.get("返回").get(i).get("详细").get("其它版本").asInt();
+						 open += data.get("返回").get(i).get("共计").asInt();
+					}
+					奇偶打开设备 = "<br>是7:"+(open-otherOpen)+"<br>非7:"+otherOpen;
+					奇偶新增设备 = "<br>是7:"+data.get("新增用户").get(7).asInt()+"<br>非7:"+data.get("新增用户").get(0).asInt();
+					day2 = "<br>偶:"+(多日返回(data,2,0)+多日返回(data,4,0))+"<br>奇:"+(多日返回(data,2,1)+多日返回(data,4,1));
+					day2 = ("<br>偶:0<br>奇:0".equals(day2))?"":day2;
+					day7 = "<br>偶:"+(多日返回(data,8,0)+多日返回(data,15,0))+"<br>奇:"+(多日返回(data,8,1)+多日返回(data,15,1));
+					day7 = ("<br>偶:0<br>奇:0".equals(day7))?"":day7;
 				}
-				String day2,day7;
-				day2 = "<br>偶:"+(返回(data,2,0)+返回(data,4,0)) +"<br>奇:"+(返回(data,2,1)+返回(data,4,1));
-				day7 = "<br>偶:"+(返回(data,8,0)+返回(data,15,0)) +"<br>奇:"+(返回(data,8,1)+返回(data,15,1));
 				//计算付费率
 				String 平均支付率 = "",平均支付额 = "";
 				if(count.getOpen() > 0){
@@ -127,17 +132,21 @@ public class Html_rate implements IHtml {
 				String week =weeks[ServerTimer.getCalendarFromString(count.getDayStr()).get(Calendar.DAY_OF_WEEK)];
 				//多课支付
 				String 多课次="",多课额="";			
-				if(data.get("支付").get("总计次数").containsKey("多课支付")){
+				if(data.size() > 0 && data.get("支付").get("总计次数").containsKey("多课支付")){
 					多课次 = data.get("支付").get("总计次数").get("多课支付").asInt()+"次<br>";
 				    多课额 = data.get("支付").get("总计金额").get("多课支付").asInt()+"元";
 				}
-				bgcolor = ("周日".equals(week) || "周六".equals(week))?"#FFFFFF":"#F5F5F5";//改周末背景色
-				Data paydata = data.get("支付").get("详细金额");//简化后面的data
+				//改周末背景色
+				bgcolor = ("周日".equals(week) || "周六".equals(week))?"#FFFFFF":"#F5F5F5";
+				//简化后面的data
+				Data paydata = data.containsKey("支付")?data.get("支付").get("详细金额"):new Data();
+				int 次日返回率 = (next.getNewDevice() == 0 ? 0 : count.getReturnNum(1)*100/next.getNewDevice());
+				
 				每天统计.append("<tr class=\""+week+"\" bgcolor=\""+ bgcolor+"\">"+
 						"<td>"+简化日期(count.getDayStr())+"<br>"+week+"</td>" +
-						"<td>"+count.getOpen()+"<br>是7:"+(open - otherOpen)+"<br>非7:"+otherOpen+"</td>" +
-						"<td>"+count.getNewDevice()+"<br>是7:"+data.get("新增用户").get(7).asInt()+"<br>非7:"+data.get("新增用户").get(0).asInt()+"</td>" +
-						"<td>"+count.getReturnNum(1)+"("+(next.getNewDevice() == 0 ? 0 : count.getReturnNum(1)*100/next.getNewDevice())+"%)"
+						"<td>"+count.getOpen()+奇偶打开设备+"</td>"+
+						"<td>"+count.getNewDevice()+奇偶新增设备+"</td>"+
+						"<td>"+count.getReturnNum(1)+"("+次日返回率+"%)"
 							+this.show奇偶(data.get("返回").get(1).get("详细"))+"</td>" +
 						"<td>"+count.getReturnNum(2)+day2+"</td>" +
 						"<td>"+count.getReturnNum(7)+day7+"</td>" +
@@ -156,8 +165,9 @@ public class Html_rate implements IHtml {
 				
 				Data reward = Data.fromMap(count.getReward());
 				if(reward.containsKey("红包生成")||reward.containsKey("红包使用")){
+					bgcolor = (错色码%2==1)?"#F5F5F5":"#FFFFFF";//不同日期背景色不同
 					Data rew生 =reward.get("红包生成"),rew用=reward.get("红包使用");
-					红包.append("<tr>"+
+					红包.append( "<tr bgcolor=\""+bgcolor+"\">" +
 						"<td>"+简化日期(count.getDayStr())+week+"</td>"+//时间
 						"<td>"+rew生.get(1).get("错过").asInt()+"</td>"+
 						"<td>"+rew生.get(1).get("次数").asInt()+"</td>"+
@@ -174,6 +184,7 @@ public class Html_rate implements IHtml {
 						"<td>"+rew用.get("多课次数").asInt()+"</td>"+
 						"<td>"+rew用.get("多课金额").asInt()+"</td>"+
 						"</tr>\n");
+					错色码 += 1;
 				}				
 			}
 			
@@ -220,9 +231,10 @@ public class Html_rate implements IHtml {
 			每月统计 = "";
 			list2 = Dao.getAllMonthCount();
 			for(int m=0;m<list2.size();m++){
+				bgcolor = (错色码%2==1)?"#F5F5F5":"#FFFFFF";//不同日期背景色不同
 				Count count = list2.get(m);
 				String 付费率 = (count.getOpen() > 0)?new DecimalFormat("0.0").format((float)count.getPay()*100/count.getOpen()):"";			
-				每月统计 += "<tr>" +
+				每月统计 += "<tr bgcolor=\""+bgcolor+"\">" +//行错色显示
 						"<td>"+count.getDayStr()+"</td>" +
 						"<td>"+count.getOpen()+"</td>" +
 						"<td>"+count.getNewDevice()+"</td>" +
@@ -236,6 +248,7 @@ public class Html_rate implements IHtml {
 						"<td>"+count.getHwPay()+"</td>" +
 						"<td>"+count.getWiiPay()+"</td>" +
 						"</tr>\n";
+				错色码 += 1;
 			}
 			body +=
 				"<div align=\"center\" data-role=\"collapsible\">\n"+
@@ -310,21 +323,26 @@ public class Html_rate implements IHtml {
 		return html;
 	}
 	public String show奇偶(Data data){
-		StringBuilder str = new StringBuilder();
-		if(data._Value()!=null){
-			if(data.get("0").size()>0||data.get("1").size()>0){
-				str.append("<br>偶:").append(data.get("0").asInt())
-				.append("<br>奇:").append(data.get("1").asInt());
+		if(data.size()!=0){
+			if(data.get("0").size()>0||data.get("1").size()>0){//兼容老数据
+				if(data.get("0").asInt() == 0 && data.get("1").asInt()==0){ 
+					return "";}
+				return "<br>偶:"+data.get("0").asInt()+"<br>奇:"+data.get("1").asInt();
 			}else if(data.get(0).size()>0||data.get(1).size()>0){
-				str.append("<br>偶:").append(data.get(0).asInt())
-				.append("<br>奇:").append(data.get(1).asInt());
+				if(data.get(0).asInt() == 0 && data.get(1).asInt()==0){ 
+					return "";}
+				return "<br>偶:"+data.get(0).asInt()+"<br>奇:"+data.get(1).asInt();
 			}
-		}		
-		return str.toString();
+		}
+		return "";
 	}
-	private int 返回(Data data,int day,int 奇偶){
+	private int 多日返回(Data data,int day,int 奇偶){
 		//data.get("返回").get(2).get("详细").get("1").asInt();
-		return data.get("返回").get(day).get("详细").get(奇偶).asInt();		
+		int reNum = data.get("返回").get(day).get("详细").get(奇偶+"").asInt();
+		if(reNum == 0){
+			reNum =  data.get("返回").get(day).get("详细").get(奇偶).asInt();
+		}
+		return reNum;		
 	}
 	public String 简化日期(String 日期){
 		if(日期 != null && 日期.length() >7){
