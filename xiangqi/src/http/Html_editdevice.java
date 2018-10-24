@@ -33,7 +33,7 @@ public class Html_editdevice extends Html {
 				"<button onclick=\"$.post('/manage_device',{id:$('#id').val(),imei:$('#imei').val(),base:$('#base').val(),page:$('#page').val()},function(data,status){$('#users').html(data).trigger('create');});\">查询</button>"+
 			"</div>" +
 			"<div id='users'></div>";
-			html = Http.getHtml(body);
+			html = Http.getManageHtml(body);
 		}else{
 			int id = 0;
 			String imei = "";

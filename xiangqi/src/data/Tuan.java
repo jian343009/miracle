@@ -168,9 +168,10 @@ public class Tuan extends Database{
 	}
 
 	public static Tuan getByImei(String imei){
+		if(imei == null || imei.isEmpty()){ return null; }//异常判断
 		Tuan tu = null;
 		Session ss = HSF.getSession();
-		List<Tuan> list = ss.createCriteria(Tuan.class).add(Restrictions.eq("imei", imei)).list();
+		List<Tuan> list = ss.createCriteria(Tuan.class).add(Restrictions.eq("imei", imei)).setMaxResults(1).list();
 		ss.close();
 		if(list.size() >0){
 			tu = list.get(0);
@@ -178,6 +179,8 @@ public class Tuan extends Database{
 		return tu;
 	}
 	public static Tuan getByID(int id){
+		if(id == 0){
+			return null;	}//异常判断
 		Tuan tu = null;
 		Session ss = HSF.getSession();
 		List<Tuan> list = ss.createCriteria(Tuan.class).add(Restrictions.eq("id", id)).list();
@@ -190,7 +193,7 @@ public class Tuan extends Database{
 	public static Tuan getByToken(String token){
 		Tuan tu = null;
 		Session ss = HSF.getSession();
-		List<Tuan> list = ss.createCriteria(Tuan.class).add(Restrictions.eq("token", token)).list();
+		List<Tuan> list = ss.createCriteria(Tuan.class).add(Restrictions.eq("token", token)).setMaxResults(1).list();
 		ss.close();
 		if(list.size() >0){
 			tu = list.get(0);

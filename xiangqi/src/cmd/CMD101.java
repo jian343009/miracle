@@ -13,6 +13,7 @@ import org.jboss.netty.buffer.ChannelBuffers;
 import com.sun.org.apache.xerces.internal.impl.dv.DVFactoryException;
 
 import dao.Dao;
+import dao.Data;
 import data.*;
 
 public class CMD101 implements ICMD {
@@ -68,5 +69,4 @@ public class CMD101 implements ICMD {
 		buf.writeShort(cmd);
 		return buf;
 	}
-
 }

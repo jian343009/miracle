@@ -110,6 +110,8 @@ public class Html_wiipay implements IHtml{
 						count.add奇偶付费(money, 0, "其它支付");
 					}
 					wd.使用红包((int)money, count);
+					wd.checkPrice(wd, (int)money, pay.getId());
+					
 					Dao.save(count);
 					ce.setTotalPay(ce.getTotalPay() + money);
 					ce.setWiiPay(ce.getWiiPay() + money);

@@ -61,7 +61,7 @@ public class Html_heepay implements IHtml{
 				pay.setMoney((int)money);
 			}
 			
-			if(channel.equals("团购功能屏蔽中")){
+			if(channel.equals("团购-屏蔽中")){
 				//id = tuan.getId()+"-"+lesson = mobile.getId()+"-"+total = 131068 + channel = "-团购",
 				Tuan tuan = Tuan.getByID(id);
 				if(tuan == null){
@@ -71,7 +71,7 @@ public class Html_heepay implements IHtml{
 					if(device != null){//改发起人的状态为团购。
 						device.setState(1);	//改状态
 						device.setBuy( device.getBuy() + 1 );
-						device.setMoney(device.getMoney() + (int)money);
+						//device.setMoney(device.getMoney() + (int)money);money字段作另作他用
 						Dao.save(device);
 					}
 					tuan.setPeoples(1);
@@ -89,7 +89,7 @@ public class Html_heepay implements IHtml{
 						if(device != null){
 							device.setBuyState(total);
 							device.setBuy( device.getBuy() + 1 );
-							device.setMoney(device.getMoney() + (int)money);
+							//device.setMoney(device.getMoney() + (int)money);
 							Dao.save(device);
 						}					
 					}
@@ -121,7 +121,7 @@ public class Html_heepay implements IHtml{
 					}
 				}
 				
-			}else if(channel.equals("众筹屏蔽中")){
+			}else if(channel.equals("众筹-屏蔽中")){
 				Chou chou = Chou.getByID(id);
 				if(chou != null){
 					chou.setPay(chou.getPay() +1);
@@ -169,6 +169,8 @@ public class Html_heepay implements IHtml{
 						}
 					}
 					wd.使用红包((int)money, count);
+					wd.checkPrice(wd, (int)money, pay.getId());
+					
 					Dao.save(count);
 					Dao.save(ce);
 					Dao.save(mc);				

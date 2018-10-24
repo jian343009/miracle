@@ -221,5 +221,19 @@ public class Device {
 			count.setReward(data1.toString());
 		}
 	}
+	/**
+	 * 比对支付金额和应付金额
+	 */
+	public void checkPrice(Device device,int money,int ljpayID){
+		if(Global.getInt(device.getVersion()) <= 8){
+			return;
+		}
+		if(device.getMoney()==money){
+			device.setMoney(0);
+		}else{
+			device.setMoney(ljpayID);
+		}
+		
+	}
 	
 }

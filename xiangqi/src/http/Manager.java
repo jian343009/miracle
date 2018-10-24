@@ -125,8 +125,6 @@ public class Manager extends SimpleChannelUpstreamHandler implements TimerTask {
 					e1.printStackTrace();
 				}
 			}
-			logger.warn("url:"+url+",content:"+content+","+url.startsWith("/getunlockkey?"));
-			
 			IHtml h = new Html();
 			String hl = h.getHtml(content);
 			if(url.equals("/record")){
@@ -172,6 +170,10 @@ public class Manager extends SimpleChannelUpstreamHandler implements TimerTask {
 				hl = new Html_getUnlockKey().getHtml(url.replace("/getunlockkey?", ""));
 			}else if(url.startsWith("/comment")){//评论审核
 				hl = new Html_comment().getHtml(content);
+				Global.addRecord(0, "", url, content+" #return:"+hl.length());
+			}else if(url.equals("/channels")){//评论审核
+				hl = new Html_channelAndPrice().getHtml(content);
+				Global.addRecord(0, "", url, content+" #return:"+hl.length());
 			}
 //			else if(url.startsWith("/tuan?")){
 //				hl = new Html_tuan().getHtml(url.replace("/tuan?", ""));
@@ -180,8 +182,8 @@ public class Manager extends SimpleChannelUpstreamHandler implements TimerTask {
 //			}else if(url.startsWith("/nextTuan")){
 //				hl = new Html_getCode().getHtml(url.replace("/nextTuan", ""));
 //			}
-			
-			logger.warn("url:"+url+",length:"+hl.length());
+		
+			//logger.warn("url:"+url+",length:"+hl.length());
 			buffer.writeBytes(hl.getBytes(Charset.forName("utf-8")));
 		}
 		

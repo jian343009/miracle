@@ -33,7 +33,7 @@ public class Html_wxpay extends Html {
 			log.info("map:"+map);
 			String status = map.get("return_code");
 			log.info("status:"+status);
-			if(status.equals("SUCCESS")){
+			if("SUCCESS".equals(status)){
 				String orderId = map.get("transaction_id");
 				String userID = map.get("openid");
 				int money = Global.getInt(map.get("total_fee"))/100;
@@ -92,6 +92,8 @@ public class Html_wxpay extends Html {
 						count.add奇偶付费(money, 0, "微信支付");
 					}
 					wd.使用红包((int)money, count);
+					wd.checkPrice(wd, (int)money, pay.getId());
+					
 					Dao.save(count);
 					ce.setTotalPay(ce.getTotalPay() + money);
 					ce.setWxPay(ce.getWxPay() + money);

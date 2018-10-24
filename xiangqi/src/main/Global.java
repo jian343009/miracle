@@ -61,7 +61,19 @@ public final class Global{
 	*********************/
 	public static String readUTF(ChannelBuffer buf)
 	{
-		return buf.readBytes(buf.readShort()).toString(Charset.forName("utf-8"));
+		short shor = 0;
+		String str ="";
+		if(buf.readable()){
+			shor = buf.readShort();
+		}else{
+			return "";
+		}
+		if(buf.readableBytes() >= shor){
+			str = buf.readBytes(shor).toString(Charset.forName("utf-8"));
+		}else{
+			return "";
+		}
+		return str;
 	}
 	
 //	public static ChannelBuffer getUTFBytes(String str)

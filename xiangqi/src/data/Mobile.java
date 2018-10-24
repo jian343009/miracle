@@ -253,9 +253,12 @@ public class Mobile extends Database{
 //		return mo;
 //	}
 	public static synchronized Mobile getByNumber(String number){
+		if(!number.matches("^1[\\d]{10}")){
+			return null;
+		}
 		Mobile mo = null;
 		Session ss = HSF.getSession();
-		List<Mobile> list = ss.createCriteria(Mobile.class).add(Restrictions.eq("number", number)).list();
+		List<Mobile> list = ss.createCriteria(Mobile.class).add(Restrictions.eq("number", number)).setMaxResults(1).list();
 		ss.close();
 		if(list.size() >0){
 			mo = list.get(0);
@@ -278,7 +281,7 @@ public class Mobile extends Database{
 	}
 	public static synchronized Mobile getByImei(String imei){
 		Session ss = HSF.getSession();
-		List<Mobile> list = ss.createCriteria(Mobile.class).add(Restrictions.eq("imei", imei)).list();
+		List<Mobile> list = ss.createCriteria(Mobile.class).add(Restrictions.eq("imei", imei)).setMaxResults(1).list();
 		ss.close();
 		if(list.size() >0){
 			return list.get(0);
