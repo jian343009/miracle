@@ -37,13 +37,10 @@ public class Html_basedata extends Html {
 				"<input type='text' id='addname'/><button onclick='add();'>新增</button>\n" +
 				"<table data-role=\"table\" id=\"table-column-toggle\" data-mode=\"columntoggle\" class=\"ui-responsive table-stroke\" border=\"1\">\n"+
 				     "<thead>\n"+
-				     	"<tr>\n" ;
-				         for(int m=0;m<intras.length;m++){
-				        	 body +=
-				        	"<th data-priority=\""+m+"\">"+intras[m]+"</th>\n";
-				         }
-				         body +=
-				       "</tr>\n"+
+				     	"<tr>\n"+ "<th width=\"50px\">id</th>\n"
+				     	+ "<th width=\"160px\">名称</th>\n"
+				     	+ "<th>内容</th>\n" 
+				      + "</tr>\n"+
 				     "</thead>\n"+
 				     "<tbody>\n";
 			List<BaseData> list = Dao.getAllBaseData();
