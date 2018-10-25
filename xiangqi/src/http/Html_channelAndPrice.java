@@ -40,14 +40,19 @@ public class Html_channelAndPrice extends Html{
 									+ " valb=\""+msg+"\">"+msg+"</textarea>\n</td>\n"//内容输入框
 						+ "</tr>\n";
 				}
+				
+				String 支付方式选择 = Data.fromMap(BaseData.getContent("可用支付方式")).get(cha).asString();
+				String 支付方式 = "<div data-role=\"controlgroup\" data-type=\"horizontal\" data-mini='true' >\n";
+				for(String str:支付方式选择.split("#")) {
+					支付方式 +="\t<a href=\"#\" data-role=\"button\" >"+str+"</a>\n";
+				}
+				支付方式 +="</div>\n";
+				
 				渠道们 +="<div class=\"channels\"><table id=\""+cha+"\" data-role=\"table\""
 						+ " class=\"ui-responsive table-stroke\" border='1'>\n"
 					+ "<thead>\n"
 						+ "<tr>\n"
-						+ "<th>"+cha+"</th>\n"//表头名
-						+ "<th colspan=\"2\">"+"</th>"//可用支付方式
-						+ "</tr><tr>\n"
-							+ "<th width=\"45px\">课程</th>\n"
+							+ "<th width=\"55px\">课程</th>\n"
 							+ "<th width=\"75px\">价格</th>\n"
 							+ "<th width=\"80%\">支付说明</th>\n"
 						+ "</tr>\n"
