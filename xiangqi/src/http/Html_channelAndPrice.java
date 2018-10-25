@@ -13,14 +13,6 @@ public class Html_channelAndPrice extends Html{
 	public String getHtml(String content) {
 		String html = "";
 		String 渠道们 = "";
-//		class ins{//内部类，用于字符串复用
-//					String sub(String 链接ID,String 提交内容,String sid){
-//						String str ="<a href=\"#\" id=\""+链接ID+"\" onclick=\"udp("+提交内容+","+sid+");\""
-//							+ " data-role=\"button\" data-icon=\"check\" data-iconpos=\"notext\""
-//							+ " data-theme=\"c\" data-inline=\"true\" style=\"display:none;\">提交</a>\n";
-//						return str;
-//					}
-//				}
 		log.info(content);
 		if(content.isEmpty()){
 			for(String cha:new String[]{"华为平台","苹果平台","乐视电视","其它平台"}){
@@ -34,8 +26,8 @@ public class Html_channelAndPrice extends Html{
 					String sid = cha+i;
 					内容 +="<tr>\n"
 							+ "<td>"+i+"课</td>\n"
-							+ "<td><a href='#' data-role='button' id=\""+sid+"p\""
-									+ " onclick=\"udp('"+cha+"','"+i+"');\">"+price+"</a></td>\n"//价格输入框
+							+ "<td><a href='#' data-role='button' onclick=\"udp('"+cha+"','"+i+"');\"><span id=\""
+							+sid+"p\">"+price+"</span></a></td>\n"//价格输入框
 							+ "<td><textarea id=\""+sid+"c\" onchange=\"udc('"+cha+"',"+i+");\""
 									+ " valb=\""+msg+"\">"+msg+"</textarea>\n</td>\n"//内容输入框
 						+ "</tr>\n";
@@ -48,26 +40,31 @@ public class Html_channelAndPrice extends Html{
 				}
 				支付方式 +="</div>\n";
 				
-				渠道们 +="<div class=\"channels\"><table id=\""+cha+"\" data-role=\"table\""
-						+ " class=\"ui-responsive table-stroke\" border='1'>\n"
-					+ "<thead>\n"
-						+ "<tr>\n"
-							+ "<th width=\"55px\">课程</th>\n"
-							+ "<th width=\"75px\">价格</th>\n"
+				渠道们 +="<div id=\""+cha+"\" class=\"channels\">\n<table data-role=\"table\""
+						+ " data-mode=\"columntoggle\" class=\"ui-responsive table-stroke\" border='1'>\n"
+					+ "<thead>"
+						+ "<tr>"
+							+ "<th width=\"45px\">课程</th>\n"
+							+ "<th width=\"45px\">价格</th>\n"
 							+ "<th width=\"80%\">支付说明</th>\n"
-						+ "</tr>\n"
+						+ "</tr>"
 					+ "</thead>\n"
 					+ "<tbody>\n"
 					+ "<tr><td>折扣</th>\n"
-					+ "<td><a href='#' data-role='button' id=\""+cha+"0p\""
-						+ " onclick=\"udp('"+cha+"',0);\">"+折扣+"</a></td>\n"//折扣输入框
-					+ "<td></td>"
+					+ "<td><a href='#' data-role='button' onclick=\"udp('"+cha+"',0);\">"
+							+ "<span id=\""+cha+"0p\">"+折扣+"</span></a></td>\n"//折扣输入框
+					+ "<td>"+"</td>"
 					+ "</tr>"
 					+ 内容
 					+ "</tbody>"
 				+ "</table></div>";
 			}
-			html += "<script>\n"
+			html += "	<style>\r\n" + 
+					"		.channels {\r\n" + 
+					"			display: none;\r\n" + 
+					"		}\r\n" + 
+					"	</style>"
+					+ "<script>\n"
 				+ "function udc(cha,lesson){"//update content
 					+ "var r=confirm(\"是否更新支付信息？\");"
 					+ "var ele=$('#'+cha+lesson+'c');"
@@ -78,17 +75,27 @@ public class Html_channelAndPrice extends Html{
 						+ "else{alert(\"提交失败\")} });\n"
 					+ "}else{ele.val(ele.attr('valb'));}"
 				+ "}\n"
-				+ "function cut(iss){\n"//切换平台
-					+ "$('#head').text(iss);"
-					+ "$(\"table\").hide();"
-					+ "$('#'+iss).show();"
-					+ "}\n"
-
+				+ ""
+				+ ""
+				+ "		function cut(id, iss) {\r\n" + 
+				"			var itmA=$(\"[but]\");\r\n" + 
+				"			var itmB=$('#' + id);\r\n" + 
+				"			$('#head').text(iss); \r\n" + 
+				"			itmA.css(\"width\", \"\"); \r\n" + 
+				"			itmA.css(\"color\", \"\"); \r\n" + 
+				"			itmA.css(\"border\", \"\");\r\n" + 
+				"			\r\n" + 
+				"			itmB.css(\"width\", \"110px\");\r\n" + 
+				"			itmB.css(\"color\", \"red\"); \r\n" + 
+				"			itmB.css(\"border\", \"2px solid #4CAF50\"); \r\n" + 
+				"			$('.channels').css(\"display\", \"none\");\r\n" + 
+				"			$('#' + iss).css(\"display\", \"block\");\r\n" + 
+				"		}"
 				+ "function udp(cha,lesson){\n"//udp:upDatePrice
 					+ "var input=prompt('请输入'+cha+'第'+lesson+'课的价格');"
-					+ "if(input==null && input==\"\"){return;}\n"
+					+ "if(input==null || input==\"\"){return;}\n"
 					+ "var ele=$('#'+cha+lesson+'p');"
-					+ "ele.text(input);ele.height('40px');\n"
+					+ "ele.text(input);\n"
 					+ "$.post('/channels',cha+'&价格&'+lesson+'&'+input,"
 					+ "function(msg,status){\n"
 						+ "if(status==\"success\"){\n"
@@ -98,14 +105,14 @@ public class Html_channelAndPrice extends Html{
 				+ "</script>\n"
 						
 				+ "<div id=\"container\">\n"//整个框架
-					+ "<div><h1 style=\"margin-botton:0;\"><span id=\"head\"></span>支付信息管理</h1></div>\n"
+					+ "<div><h1><span id=\"head\"></span>支付信息管理</h1></div>\n"
 					+ "<div data-role=\"controlgroup\" data-type=\"horizontal\" data-mini='true' >\n"
-						+"\t<a href=\"#\" data-role=\"button\" onclick=\"cut('华为平台');\">华为平台</a>\n"
-						+"\t<a href=\"#\" data-role=\"button\" onclick=\"cut('苹果平台');\">苹果平台</a>\n"
-						+"\t<a href=\"#\" data-role=\"button\" onclick=\"cut('乐视电视');\">乐视电视</a>\n"
-						+"\t<a href=\"#\" data-role=\"button\" onclick=\"cut('其它平台');\">其它平台</a>\n"
+						+"\t<a id=\"hwpt\" but=\"\" href=\"#\" data-role=\"button\" onclick=\"cut(id,'华为平台');\">华为平台</a>\n"
+						+"\t<a id=\"pgpt\" but=\"\" href=\"#\" data-role=\"button\" onclick=\"cut(id,'苹果平台');\">苹果平台</a>\n"
+						+"\t<a id=\"lspt\" but=\"\" href=\"#\" data-role=\"button\" onclick=\"cut(id,'乐视电视');\">乐视电视</a>\n"
+						+"\t<a id=\"qtpt\" but=\"\" href=\"#\" data-role=\"button\" onclick=\"cut(id,'其它平台');\">其它平台</a>\n"
 					+ "</div>\n"//菜单
-					+ "<div id\"channels\">"+渠道们+"</div>"
+					+ "<div id=\"channels\">"+渠道们+"</div>"
 					+ "<div id=\"footer\" style=\"clear:both;text-align:center;\">\n"
 					+ "成都迈瑞科后台管理系统@miralce-cn.com\n"
 					+ "</div>\n"//底部
