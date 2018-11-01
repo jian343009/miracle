@@ -51,14 +51,14 @@ public class CMD10 implements ICMD {
 			String imei = Global.readUTF(data);
 			log.info("imei = " + imei);
 			if (imei.length() > 0) {
-				device = Dao.getDevice(0, imei, "CMD10");
+				device = Dao.getDeviceExist(0, imei);
 			}
 		}
 		NodeList lessons = doc.getElementsByTagName("lesson");
 		if (device == null) { /* 没有imi就生成一个token，通过channel信息带到客户端。 */
 			token = Global.md5(ServerTimer.getFullWithS() + Math.random());
 			unlocky = getUnlockyByToken(token);
-			log.info("这是无imei的情况----token = " + token + "----unlocky = " + unlocky);
+			log.info("token="+token+",派发解锁码"+unlocky+"无imei");
 			NodeList channels = doc.getElementsByTagName("channel").item(0).getChildNodes();
 			for (int i = 0; i < channels.getLength(); i++) {
 				if(channels.item(i).getNodeType()!=Node.ELEMENT_NODE){
@@ -73,24 +73,13 @@ public class CMD10 implements ICMD {
 				device.setToken(token);
 			} else {// 这是有token的情况
 				token = device.getToken();
-			}
-			if(BaseData.getContent(BaseData.测试开关).contains("#价格调整#")){
-				if (device.getId() % 2 == 1) {// 将奇数用户的价格改为18元
-					for (int i = 0; i < lessons.getLength(); i++) {
-						Element e = (Element) lessons.item(i);
-						e.setAttribute("Amoney", "18");
-						e.setAttribute("Bmoney", "18");
-						for (String str : new String[] { "buyinfoA", "buyinfoB", "buyinfoC" }) {
-							e.setAttribute(str, e.getAttribute(str).replace("花12元", "花18元"));
-						}
-					}
-				}				
-			}			
+			}	
 			unlocky = Global.getRandom(99999);
 			device.setUnlockKey(unlocky);
 			Dao.save(device);// 保存
-			log.info("这是有imei的情况----token = " + token + "----unlocky = " + unlocky);
-		} // Dao.getDevice必然会得到一个device
+			log.info("token="+device.getToken()+"派发解锁码:"+device.getUnlockKey()
+			+"\ndeviceID="+device.getId()+",imei="+device.getImei());
+		} 
 		/* 改url */
 		for (int i = 0; i < lessons.getLength(); i++) {
 			Element e = (Element) lessons.item(i);
@@ -116,7 +105,7 @@ public class CMD10 implements ICMD {
 		}
 		String urlValue = e.getAttribute(url);
 		int cut = urlValue.lastIndexOf('/');
-		urlValue = urlValue.substring(0, cut) + "/down.php?token=" + token + "&lesson=" + lesson;
+		urlValue = urlValue.substring(0, cut) + "/down2.php?token=" + token + "&lesson=" + lesson;
 		e.setAttribute(url, urlValue);// 关键执行步骤
 	}
 

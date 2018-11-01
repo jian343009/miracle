@@ -372,6 +372,7 @@ public class Dao {
 		}
 		return device;
 	}
+	
 	public static Device getDeviceByToken(String token)
 	{
 		if(token == null){
@@ -386,7 +387,8 @@ public class Dao {
 		if(list.size() >0)
 		{
 			device = list.get(0);
-			Dao.addDevice(device);
+			//更新缓存数据
+			device = Dao.getDeviceExist(device.getId(), device.getImei());
 		}
 		return device;
 	}
