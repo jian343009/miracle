@@ -15,9 +15,10 @@ public class Html_channelAndPrice extends Html{
 		String 渠道们 = "";
 		log.info(content);
 		if(content.isEmpty()){
+			BaseData.priceDataMap.clear();//清空缓存，不然改BaseData时更新不了数据
 			for(String cha:new String[]{"华为平台","苹果平台","乐视电视","其它平台"}){
 				String 内容 = "";
-				Data data = Data.fromMap(BaseData.getContent(cha));
+				Data data = BaseData.getPriceData(cha);//data做了缓存
 				//{价格:{1:12,2:13,,,,折扣:95},内容:{1:"",2"",,,,}}
 				int 折扣=data.get("价格").get("折扣").asInt();
 				for(int i=2;i<=16;i++){//单课价格
@@ -53,7 +54,7 @@ public class Html_channelAndPrice extends Html{
 					+ "<tr><td>折扣</th>\n"
 					+ "<td><a href='#' data-role='button' onclick=\"udp('"+cha+"',0);\">"
 							+ "<span id=\""+cha+"0p\">"+折扣+"</span></a></td>\n"//折扣输入框
-					+ "<td>"+"</td>"
+					+ "<td>"+支付方式+"</td>"
 					+ "</tr>"
 					+ 内容
 					+ "</tbody>"
@@ -90,10 +91,10 @@ public class Html_channelAndPrice extends Html{
 				"			itmB.css(\"border\", \"2px solid #4CAF50\"); \r\n" + 
 				"			$('.channels').css(\"display\", \"none\");\r\n" + 
 				"			$('#' + iss).css(\"display\", \"block\");\r\n" + 
-				"		}"
+				"		}\n"
 				+ "function udp(cha,lesson){\n"//udp:upDatePrice
 					+ "var input=prompt('请输入'+cha+'第'+lesson+'课的价格');"
-					+ "if(input==null || input==\"\"){return;}\n"
+					+ "if(/^\\d+$/.test(input)==false){alert(\"只能输入数字\");return;}\n"
 					+ "var ele=$('#'+cha+lesson+'p');"
 					+ "ele.text(input);\n"
 					+ "$.post('/channels',cha+'&价格&'+lesson+'&'+input,"
@@ -119,7 +120,7 @@ public class Html_channelAndPrice extends Html{
 				+ "</div>\n";//整个框架
 				
 			html = Http.getManageHtml(html);
-		}else if(content.contains("&") && content.split("&").length == 4){
+		}else if(content.contains("&") && content.split("&").length >= 4){
 			// 华为平台&价格&3&12
 			String cha = content.split("&")[0];
 			String type = content.split("&")[1];
@@ -129,7 +130,7 @@ public class Html_channelAndPrice extends Html{
 			if(bd==null){
 				return "未知渠道";
 			}
-			Data data = Data.fromMap(bd.getContent());
+			Data data = BaseData.getPriceData(cha);//调用缓存了data
 			//{价格:{1:12,2:13,,,,折扣:95},内容:{1:"",2"",,,,}}
 			if("价格".equals(type)){
 				if(lesson==0){
@@ -141,6 +142,7 @@ public class Html_channelAndPrice extends Html{
 				data.getMap("内容").put(lesson, value);
 			}
 			bd.setContent(data.asString());
+			BaseData.priceDataMap.remove(cha);
 			Dao.save(bd);
 			log.info(content);
 			return "更新成功";

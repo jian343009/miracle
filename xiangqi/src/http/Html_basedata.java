@@ -20,9 +20,13 @@ public class Html_basedata extends Html {
 		
 		if(content.isEmpty()){
 			String[] params = "id,name,content".split(","); 
-			String[] intras = "id,名称,内容".split(",");
-			String body = 
-			"<script type=\"text/javascript\">\n"+
+			//String[] intras = "id,名称,内容".split(",");
+			String body = "<style>\n" + 
+			"		select{\n" + 
+			"			font-size: 19px;\n" + 
+			"		}\n" + 
+			"	</style>"
+			+ "<script type=\"text/javascript\">\n"+
 				"function updaterule(column, id){\n" +
 					"var value = $('#'+column+id).val();\n" +
 					"value = encodeURIComponent(value);\n" +
@@ -48,6 +52,24 @@ public class Html_basedata extends Html {
 				BaseData bd = list.get(m);
 				if(Arrays.asList("华为平台","苹果平台","乐视电视","其它平台").contains(bd.getName())){
 					//continue;
+				}
+				if("红包限制".equals(bd.getName())) {
+					String s2="",s3="";
+					if("多课".equals(bd.getContent())) {
+						s2 = "selected";
+					}else if("通用".equals(bd.getContent())) {
+						s3 = "selected";
+					}
+					body +="<tr>\n" 
+							+ "<td>"+bd.getId()+"</td>\n" 
+							+ "<td>"+bd.getName()+"</td>\n"
+							+ "<td><div style=\"width:130px;\"><select id=\"content"+bd.getId()+"\""
+									+ " onchange=\"updaterule('content','"+bd.getId()+"');\">\n" + 
+							"					<option value=\"关闭\">关闭</option>\n" + 
+							"					<option value=\"多课\" "+s2+">多课</option>\n" + 
+							"					<option value=\"通用\" "+s3+">通用</option>\n" + 
+							"			</select></div></td></tr>" ;
+					continue;
 				}
 				body +=
 						"<tr>\n" +
@@ -78,7 +100,6 @@ public class Html_basedata extends Html {
 		}else{//改baseData
 			String[] conts = content.split("&");
 			int id = Global.getInt(conts[0].split("=")[1]);
-			
 			BaseData br = Dao.getBaseDataById(id);
 			if(id ==0 && conts.length >1 && conts[1].startsWith("name=")){
 				String name = conts[1].replace("name=", "");
