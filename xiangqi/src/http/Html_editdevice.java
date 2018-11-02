@@ -18,21 +18,45 @@ public class Html_editdevice extends Html {
 			String body = 
 			"<script type=\"text/javascript\">"+
 				"function update(column, id){" +
-					"$.post('/updatedevice','id='+id+'&'+column+'='+$('#'+column+id).val(),function(data,status){alert(data)});"+
+					"$.post('/updatedevice','id='+id+'&'+column+'='+$('#'+column+id).val(),"
+					+ "function(data,status){alert(data)});"+
 				"}"+
 			"</script>"+
-			"<div>"+
-				"<label>id</label>"+
-				"<input type='text' data-clear-btn=\"true\" name=\"id\" id=\"id\" value=\"\" ><br/>"+
-				"<label>设备imei</label>"+
-				"<input type=\"text\" data-clear-btn=\"true\" name=\"imei\" id=\"imei\" value=\"\"  ><br/>"+
-				"<label>每页显示数量</label>"+
-				"<input type=\"text\" name=\"base\" id=\"base\" value=\"10\"  ><br/>"+
-				"<label>第几页</label>"+
-				"<input type=\"number\" name=\"page\" id=\"page\" value=\"1\"  ><br/>"+
-				"<button onclick=\"$.post('/manage_device',{id:$('#id').val(),imei:$('#imei').val(),base:$('#base').val(),page:$('#page').val()},function(data,status){$('#users').html(data).trigger('create');});\">查询</button>"+
-			"</div>" +
-			"<div id='users'></div>";
+			"<div style=\"width:600px;\">"
+			+ "<table data-role=\"table\" data-mode=\"column\" class=\"ui-responsive table-stroke\" border='1' >"
+				+ "<tr>"//第一行
+				+"<td>"	+ "<label>设备ID</label>"	+"</td>"
+				+ "<td>"
+					+ "<input type='text' data-clear-btn=\"true\" name=\"id\" id=\"id\" value=\"\">"
+				+ "</td>"
+				+"<td>"	+ "<label>每页条数</label>" + "</td>"
+				+ "<td><div style=\"width:51px;\">"
+					+"<input type=\"text\" name=\"base\" id=\"base\" value=\"10\">"
+				+ "</div></td>"
+				+ "</tr>"//第一行
+				+ "<tr>"//第二行
+				+"<td>"	+ "<label>设备imei</label>" + "</td>"
+				+ "<td>"
+					+"<input type=\"text\" data-clear-btn=\"true\" name=\"imei\" id=\"imei\" value=\"\">"
+				+ "</td>"
+				+ "<td>" + "<label>第几页</label>"	+ "</td>"
+				+ "<td><div style=\"width:51px;\">"
+					+"<input type=\"number\" name=\"page\" id=\"page\" value=\"1\">"
+				+ "</div></td>"
+				+ "</tr>"//第二行
+				+ "<tr>"//第三行
+				+ "<td></td>"
+				+ "<td>"
+					+"<button onclick=\"$.post('/manage_device',"
+					+ "{id:$('#id').val(),imei:$('#imei').val(),base:$('#base').val(),page:$('#page').val()},"
+					+ "function(data,status){$('#users').html(data).trigger('create');});\">查询"
+					+ "</button>"
+				+ "</td>"
+				+ "<td></td><td></td>"
+				+ "</tr>"//第三行
+			+ "</table>"
+			+"</div>" +
+			"<div id='users' style=\"width:600px;\"><button>设备数据管后台</button></div>";
 			html = Http.getManageHtml(body);
 		}else{
 			int id = 0;
@@ -84,7 +108,12 @@ public class Html_editdevice extends Html {
 									Field fd = Device.class.getDeclaredField(argName);
 									fd.setAccessible(true);
 									String idStr = argName+device.getId();
-									body += "<tr><td>"+arg+"</td><td><input type=\"text\" data-clear-btn=\"false\" id=\""+idStr+"\" value=\""+fd.get(device)+"\" onchange=\"$('#btn"+idStr+"').show();\" /><a href=\"#\"  id=\"btn"+idStr+"\" onclick=\"update('"+argName+"', '"+device.getId()+"');$(this).hide();\" data-role=\"button\" data-icon=\"check\" data-iconpos=\"notext\" data-theme=\"c\" data-inline=\"true\" style=\"display:none;\"></a></td></tr>" ;
+									body += "<tr><td>"+arg+"</td><td><input type=\"text\" data-clear-btn=\"false\" id=\""
+									+idStr+"\" value=\""+fd.get(device)+"\" onchange=\"$('#btn"+idStr
+									+"').show();\" /><a href=\"#\"  id=\"btn"+idStr+"\" onclick=\"update('"
+									+argName+"', '"+device.getId()+"');$(this).hide();\" data-role=\"button\" data-icon=\"check\""
+									+ " data-iconpos=\"notext\" data-theme=\"c\" data-inline=\"true\" "
+									+ "style=\"display:none;\"></a></td></tr>" ;
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
