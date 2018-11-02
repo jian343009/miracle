@@ -73,17 +73,17 @@ public class Html_record implements IHtml {
 						"<td>"+sc.getData().get("打开设备").asInt()+"</td>" +
 						"<td>"+sc.getData().get("新增设备").asInt()+"</td>" +
 						"<td>\n";	
-				if(sc.getData().get("退出测试").size()>0){
-					Data data_out = sc.getData().get("退出测试");				
-					str_退出原因 += "<tr>" + 
-					"<td>"+sc.getDayStr()+" "+sc.getChannel()+"</td>" +
-					"<td>"+data_out.get("不吸引人").asInt()+"</td>" +
-					"<td>"+data_out.get("想学但价格太高").asInt()+"</td>" +
-					"<td>"+data_out.get("习题太少缺少练习").asInt()+"</td>" +
-					"<td>"+data_out.get("孩子看不懂").asInt()+"</td>" +
-					"<td>"+data_out.get("操作不方便").asInt()+"</td>" +
-					"</tr>\n";		
-				}
+//				if(sc.getData().get("退出测试").size()>0){
+//					Data data_out = sc.getData().get("退出测试");				
+//					str_退出原因 += "<tr>" + 
+//					"<td>"+sc.getDayStr()+" "+sc.getChannel()+"</td>" +
+//					"<td>"+data_out.get("不吸引人").asInt()+"</td>" +
+//					"<td>"+data_out.get("想学但价格太高").asInt()+"</td>" +
+//					"<td>"+data_out.get("习题太少缺少练习").asInt()+"</td>" +
+//					"<td>"+data_out.get("孩子看不懂").asInt()+"</td>" +
+//					"<td>"+data_out.get("操作不方便").asInt()+"</td>" +
+//					"</tr>\n";		
+//				}
 										
 				for(int m=0;m<24;m++){
 					int num = sc.getData().get("打开设备时段").get(m).asInt();
@@ -146,26 +146,26 @@ public class Html_record implements IHtml {
 							  "</div>\n" +
 						  "</div>\n";
 			
-			body += "<div align=\"center\" data-role=\"collapsible\">\n"+
-	              "<h3 align=\"center\">退出测试</h3>\n" +
-	              "<div>\n" +
-		              "<table data-role=\"table\" id='t3' data-mode=\"columntoggle\" class=\"ui-responsive table-stroke\" border='1' >\n" +
-			              "<thead>\n" +
-				              "<tr>\n" +
-				              	  "<th data-priority=\"1\">日期</th>\n" +				              	
-				              	  "<th data-priority=\"1\">不吸引人</th>\n" +
-					              "<th data-priority=\"1\">想学但价格太高</th>\n" +
-					              "<th data-priority=\"2\">习题太少缺少练习</th>\n" +
-					              "<th data-priority=\"3\">孩子看不懂</th>\n" +
-					              "<th data-priority=\"4\">操作不方便</th>\n" +
-				              "</tr>\n"+
-			              "</thead>\n" +
-			              "<tbody id='str_退出原因'>\n" + 
-			              	str_退出原因 + 
-						  "</tbody>\n" +
-					  "</table>\n" +
-				  "</div>\n" +
-			  "</div>\n";
+//			body += "<div align=\"center\" data-role=\"collapsible\">\n"+
+//	              "<h3 align=\"center\">退出测试</h3>\n" +
+//	              "<div>\n" +
+//		              "<table data-role=\"table\" id='t3' data-mode=\"columntoggle\" class=\"ui-responsive table-stroke\" border='1' >\n" +
+//			              "<thead>\n" +
+//				              "<tr>\n" +
+//				              	  "<th data-priority=\"1\">日期</th>\n" +				              	
+//				              	  "<th data-priority=\"1\">不吸引人</th>\n" +
+//					              "<th data-priority=\"1\">想学但价格太高</th>\n" +
+//					              "<th data-priority=\"2\">习题太少缺少练习</th>\n" +
+//					              "<th data-priority=\"3\">孩子看不懂</th>\n" +
+//					              "<th data-priority=\"4\">操作不方便</th>\n" +
+//				              "</tr>\n"+
+//			              "</thead>\n" +
+//			              "<tbody id='str_退出原因'>\n" + 
+//			              	str_退出原因 + 
+//						  "</tbody>\n" +
+//					  "</table>\n" +
+//				  "</div>\n" +
+//			  "</div>\n";
 		
 			
 			html = Http.getHtml(body);

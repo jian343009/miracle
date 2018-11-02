@@ -15,7 +15,7 @@ public class Html_channelAndPrice extends Html{
 		String 渠道们 = "";
 		log.info(content);
 		if(content.isEmpty()){
-			BaseData.priceDataMap.clear();//清空缓存，不然改BaseData时更新不了数据
+			BaseData.clearMap();//清空缓存，不然改BaseData时更新不了数据
 			for(String cha:new String[]{"华为平台","苹果平台","乐视电视","其它平台"}){
 				String 内容 = "";
 				Data data = BaseData.getPriceData(cha);//data做了缓存
@@ -142,7 +142,6 @@ public class Html_channelAndPrice extends Html{
 				data.getMap("内容").put(lesson, value);
 			}
 			bd.setContent(data.asString());
-			BaseData.priceDataMap.remove(cha);
 			Dao.save(bd);
 			log.info(content);
 			return "更新成功";

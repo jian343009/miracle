@@ -23,7 +23,7 @@ public class Http {
 					"\t\t<a href=\"/comment\" data-role=\"button\" data-icon=\"\" data-theme=\"b\" rel=\"external\"  data-ajax=\"false\">审核评论</a>\n"+
 					"\t</div>\n"+
 					body+
-				"\t</body >\n" +
+				"\t</body>\n" +
 			"</html>\n";
 		return html;
 	}
@@ -46,7 +46,7 @@ public class Http {
 					"\t\t<a href=\"/channels\" data-role=\"button\" data-icon=\"\" data-theme=\"b\" rel=\"external\"  data-ajax=\"false\">渠道信息</a>\n"+
 					"\t</div>\n"+
 					body+
-				"\t</body >\n" +
+				"\t</body>\n" +
 			"</html>\n";
 		return html;
 	}

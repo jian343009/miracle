@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import cmd.CMD14;
 import dao.Dao;
 import dao.Data;
 import main.Global;
@@ -228,12 +229,13 @@ public class Device {
 		if(Global.getInt(device.getVersion()) <= 8){
 			return;
 		}
-		if(device.getMoney()==money){
+		int price = CMD14.getPrice(device, money);
+		if(price==money){
 			device.setMoney(0);
 		}else{
 			device.setMoney(ljpayID);
 		}
-		
+		Dao.save(device);
 	}
 	
 }

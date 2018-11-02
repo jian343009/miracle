@@ -17,9 +17,9 @@ public class BaseData {
 	public static final String 可用支付方式 = "可用支付方式";//对应数据的name
 	public static final String 红包限制="红包限制";//关闭，多课，通用
 	//baseData的缓存
-	public static final Map<String, BaseData> bdMap = new HashMap<String, BaseData>();
+	private static final Map<String, BaseData> bdMap = new HashMap<String, BaseData>();
 	//渠道价格信息的data缓存
-	public static final Map<String, Data> priceDataMap=new HashMap<String, Data>();
+	private static final Map<String, Data> priceDataMap=new HashMap<String, Data>();
 	
 	private int id;
 	private String name = "";
@@ -79,7 +79,13 @@ public class BaseData {
 		}
 		return data;
 	}
-	
+	public static void clearMap() {
+		bdMap.clear();
+		priceDataMap.clear();
+	}
+	public static Map<String,BaseData> getBDMap() {
+		return bdMap;
+	}
 	//已知的渠道
 	public static final String[] 全部渠道={"oppo平台","vivo平台","华为平台","苹果商城",				
 			"小米平台","三星平台","金立平台","联想平台","阿里应用","安智市场","机锋市场","百度商城",

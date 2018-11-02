@@ -40,6 +40,7 @@ public class Dao {
 		return list;
 	}
 	public static List<BaseData> getAllBaseData(){
+		BaseData.clearMap();//清空缓存
 		Session ss = HSF.getSession();
 		List<BaseData> list = ss.createCriteria(BaseData.class).addOrder(Order.desc("id")).list();
 		ss.close();
@@ -48,11 +49,19 @@ public class Dao {
 	
 	public static BaseData getBaseDataById(int id){
 		BaseData bd = null;
-		Session ss = HSF.getSession();
-		List<BaseData> list = ss.createCriteria(BaseData.class).add(Restrictions.eq("id", id)).list();
-		ss.close();
-		if(list.size() >0){
-			bd = list.get(0);
+		//查找缓存
+		for(String key:BaseData.getBDMap().keySet()) {
+			if(BaseData.getBDMap().get(key).getId()==id) {
+				bd=BaseData.getBDMap().get(key);break;
+			}
+		}
+		if(bd==null) {
+			Session ss = HSF.getSession();
+			List<BaseData> list = ss.createCriteria(BaseData.class).add(Restrictions.eq("id", id)).list();
+			ss.close();
+			if(list.size() >0){
+				bd = list.get(0);
+			}
 		}
 		return bd;
 	}
