@@ -68,7 +68,7 @@ public class CMD100 implements ICMD {
 		}
 		if(device.getOpen() ==0){
 			if(!channel.equals("苹果商城")){
-				device.setBuyState(device.getBuyState() | 4);
+				device.setBuyState(device.getBuyState() | 4);//解锁前两课
 			}
 			if(Global.getInt(version) >=7){
 				count.add新增用户(7);
