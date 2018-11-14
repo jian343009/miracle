@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import dao.Data;
@@ -6,14 +8,20 @@ import main.ServerTimer;
 
 public class Test {
 	private static final Logger log = Logger.getLogger(Test.class.getName());
-	public static void main(String[] args){
-		String cha = "佾华为平台工林";
-		for(String str:new String[]{"华为平台","苹果平台","乐视电视","其它平台"}){
-			if(cha.contains(str)){
-				cha = str;
-				log.info(cha);
-			}
+
+	public static void main(String[] args) {
+		long l1 = System.currentTimeMillis();
+		int i = 0;
+		while (i < 9999) {
+			Data.fromMap("{22:44}").put(22, 55).toString();
+			
+			i++;
+
 		}
-		log.info("");
+		long l2 = System.currentTimeMillis();
+		long time = 000;
+
+		log.info(time + "," +i+ Data.fromMap("{22:44}").put(22, 56).toString());
+
 	}
 }

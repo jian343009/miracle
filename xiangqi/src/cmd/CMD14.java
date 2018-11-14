@@ -84,7 +84,7 @@ public class CMD14 implements ICMD {
 		String payChannel = BaseData.getContent(BaseData.可用支付方式);
 		payChannel = Data.fromMap(payChannel).get(channelName).asString();
 		// 把价格存在device里，支付回调时用于比对
-		device.setMoney(price);
+		//device.setMoney(price);
 		Dao.save(device);
 		log.info("price:" + price);
 		buf.writeByte(1);

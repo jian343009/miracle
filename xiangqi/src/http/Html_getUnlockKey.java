@@ -18,14 +18,11 @@ public class Html_getUnlockKey extends Html {
 		HashMap<String, String> map = Global.decodeUrlParam(content);
 		String token = map.get("token");
 		int lesson = Global.getInt(map.get("lesson"));
-		//log.info("token = " + token + "---lesson = " + lesson);
-
 		Device device = Dao.getDeviceByToken(token);
-		//log.info("device:"+device);
 		if(device != null && lesson >0){
 			int unlockMark = device.getUnlockKey();
-			log.info(device+"原始码:"+unlockMark);
-			
+			log.info("token:"+device.getToken()+",认证解锁码="+unlockMark
+					+"\ndeviceID="+device.getId()+",imei:"+device.getImei());
 			int bought = device.getBuyState();//取出用户购买记录
 			log.info("bought:"+bought);
 			int pow = 1 << lesson;

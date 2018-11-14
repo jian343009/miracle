@@ -91,8 +91,8 @@ public class Html_wxpay extends Html {
 					}else{
 						count.add奇偶付费(money, 0, "微信支付");
 					}
+					wd.checkPrice(wd,lesson, (int)money, pay.getId());
 					wd.使用红包((int)money, count);
-					wd.checkPrice(wd, (int)money, pay.getId());
 					
 					Dao.save(count);
 					ce.setTotalPay(ce.getTotalPay() + money);

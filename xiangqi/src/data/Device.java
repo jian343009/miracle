@@ -225,11 +225,11 @@ public class Device {
 	/**
 	 * 比对支付金额和应付金额
 	 */
-	public void checkPrice(Device device,int money,int ljpayID){
+	public void checkPrice(Device device,int lesson,int money,int ljpayID){
 		if(Global.getInt(device.getVersion()) <= 8){
 			return;
 		}
-		int price = CMD14.getPrice(device, money);
+		int price = CMD14.getPrice(device, lesson);
 		if(price==money){
 			device.setMoney(0);
 		}else{

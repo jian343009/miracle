@@ -121,8 +121,8 @@ public class CMD204 implements ICMD {
 					}else{
 						count.add奇偶付费(money, 0, "苹果支付");
 					}
+					//device.checkPrice(device,lesson, money, pay.getId());
 					device.使用红包(money, count);
-					device.checkPrice(device, money, pay.getId());
 					
 					ce.setTotalPay(ce.getTotalPay() + money);
 					ce.setApplePay(ce.getApplePay() + money);
