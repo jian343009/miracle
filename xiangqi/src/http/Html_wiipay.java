@@ -104,13 +104,13 @@ public class Html_wiipay implements IHtml{
 					
 					count.setTotalPay(count.getTotalPay() + money);
 					count.setWiiPay(count.getWiiPay() + money);
-					if(Global.getInt(wd.getVersion()) >= 7){
+					if(Global.getInt(wd.getVersion()) >= 9){
 						count.add奇偶付费(money, wd.getId(), "其它支付");
 					}else{
 						count.add奇偶付费(money, 0, "其它支付");
 					}
 					wd.checkPrice(wd,lesson, (int)money, pay.getId());
-					wd.使用红包((int)money, count);
+					wd.使用红包((int)money,lesson, count);
 					
 					Dao.save(count);
 					ce.setTotalPay(ce.getTotalPay() + money);

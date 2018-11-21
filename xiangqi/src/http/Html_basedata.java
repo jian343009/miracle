@@ -53,7 +53,9 @@ public class Html_basedata extends Html {
 				if(Arrays.asList("华为平台","苹果平台","乐视电视","其它平台").contains(bd.getName())){
 					//continue;
 				}
-				if("红包限制".equals(bd.getName())) {
+				if("红包限制A".equals(bd.getName()) 
+						|| "红包限制B".equals(bd.getName())
+						|| "红包限制".equals(bd.getName())) {
 					String s2="",s3="";
 					if("多课".equals(bd.getContent())) {
 						s2 = "selected";

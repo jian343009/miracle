@@ -194,9 +194,12 @@ public class Device {
 	/**
 	 * @param money 支付金额
 	 */
-	public void 使用红包(int money,Count count){
+	public void 使用红包(int money,int lesson,Count count){
 		if(this.reward == null || !this.reward.contains("未使用")){
 			return;//无可用红包直接返回
+		}
+		if (!CMD14.canUseReward(this, lesson)) {
+			return;//不符合红包使用条件
 		}
 		Data dat = Data.fromMap(this.getReward());
 		int 红包使用金额=0;
@@ -212,7 +215,7 @@ public class Device {
 			Data data2=data1.getMap("红包使用");
 			data2.put("次数", data2.get("次数").asInt()+1);
 			data2.put("金额", data2.get("金额").asInt()+红包使用金额);
-			if(money < 12){//区分单课和多课使用
+			if(lesson >= 2){//区分单课和多课使用
 				data2.put("单课次数", data2.get("单课次数").asInt()+1);
 				data2.put("单课金额", data2.get("单课金额").asInt()+红包使用金额);
 			}else{

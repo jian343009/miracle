@@ -92,13 +92,13 @@ public class Html_alipay implements IHtml {
 				count.setTotalPay(count.getTotalPay() + money);
 				count.setAliPay(count.getAliPay() + money);
 			
-				if(Global.getInt(wd.getVersion()) >= 7){
+				if(Global.getInt(wd.getVersion()) >= 9){
 					count.add奇偶付费((int)money, wd.getId(), "支付宝");		
 				}else{
 					count.add奇偶付费((int)money, 0, "支付宝");
 				}
 				wd.checkPrice(wd,lesson, (int)money, pay.getId());
-				wd.使用红包((int)money, count);
+				wd.使用红包((int)money,lesson, count);
 				
 				Dao.save(count);
 				ce.setTotalPay(ce.getTotalPay() + money);

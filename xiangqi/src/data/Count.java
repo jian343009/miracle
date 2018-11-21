@@ -22,6 +22,15 @@ public class Count {
 	private String dataStr = "";
 	private String reward = "";
 	private Data data = null;
+	private String ljPay="";//应付价格与实付价格不符的交易号
+
+	public String getLjPay() {
+		return ljPay;
+	}
+
+	public void setLjPay(String ljPay) {
+		this.ljPay = ljPay;
+	}
 
 	public int getId() {
 		return id;

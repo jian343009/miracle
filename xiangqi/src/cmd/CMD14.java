@@ -56,9 +56,8 @@ public class CMD14 implements ICMD {
 		int price = getPrice(device, lesson);
 		int 红包 = 可用红包额(device);
 
-		String 红包限制 = BaseData.getContent(BaseData.红包限制);// 红包使用条件
 		String 红包抵扣了 = "";// 红包抵扣后的提示信息
-		if (("通用".equals(红包限制) || ("多课".equals(红包限制) && lesson == 0)) && 红包 > 0) {
+		if (canUseReward(device, lesson) && 红包 > 0) {
 			红包抵扣了 = "(原价" + (price + 红包) + "元,红包抵扣" + 红包 + "元)";
 		}
 		String payMsg = "";// 返回的提示信息
@@ -67,10 +66,10 @@ public class CMD14 implements ICMD {
 			return reBuf(buf, 3, "没找到对应渠道");
 		}
 		String 支付提示 = data.get("内容").get(lesson).asString();// 单课的支付提示
-		if ("单课".equals(name) && lesson != 0 && 支付提示.contains("#") ) {
+		if (lesson != 0 && 支付提示.contains("#") ) {
 			String[] arr=支付提示.split("#");
 			payMsg = arr[0] + price + "元" + 红包抵扣了 + arr[1];
-		} else if ("多课".equals(name) && lesson == 0) {
+		} else if (lesson == 0) {
 			List<Integer> list = new ArrayList<Integer>();
 			for (int i = 2; i <= 16; i++) {
 				if ((device.getBuyState() & (1 << i)) != (1 << i)) {// 取出所有未购买的课程
@@ -120,8 +119,7 @@ public class CMD14 implements ICMD {
 		} else {// 单课价格
 			price = data.get("价格").get(lesson).asInt();
 		}
-		String 红包限制 = BaseData.getContent(BaseData.红包限制);
-		if ("通用".equals(红包限制) || ("多课".equals(红包限制) && lesson == 0)) {
+		if (canUseReward(device, lesson)) {
 			price -= 可用红包额(device);
 		}
 		return price;
@@ -146,5 +144,34 @@ public class CMD14 implements ICMD {
 		buf.writeByte(code);
 		buf.writeBytes(Global.getUTF(msg));
 		return buf;
+	}
+//	public static String rewardLimit(Device device) {
+//		if(device==null) {
+//			return "";
+//		}else if(Global.getInt(device.getVersion())<9) {
+//			return BaseData.getContent("红包限制");
+//		}else if(device.getId()%2==1) {
+//			return BaseData.getContent("红包限制A");
+//		}else {
+//			return BaseData.getContent("红包限制B");
+//		}
+//	}
+	//当前用户是否可以使用红色
+	public static boolean canUseReward(Device device,int lesson) {
+		if(device==null) {
+			return false;
+		}
+		String limit="";
+		if(Global.getInt(device.getVersion())<9) {
+			limit=BaseData.getContent("红包限制");
+		}else if(device.getId()%2==1) {
+			limit=BaseData.getContent("红包限制A");
+		}else {
+			limit=BaseData.getContent("红包限制B");
+		}
+		if ("通用".equals(limit) || ("多课".equals(limit) && lesson == 0)) {
+			return true;
+		}
+		return false;
 	}
 }

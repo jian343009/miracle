@@ -56,7 +56,7 @@ public class Html_editdevice extends Html {
 				+ "</tr>"//第三行
 			+ "</table>"
 			+"</div>" +
-			"<div id='users' style=\"width:600px;\"><button>设备数据管后台</button></div>";
+			"<div id='users' style=\"width:600px;\"><button disabled>设备数据管后台</button></div>";
 			html = Http.getManageHtml(body);
 		}else{
 			int id = 0;
@@ -83,7 +83,8 @@ public class Html_editdevice extends Html {
 				base = 1;
 			}
 			List<Device> list = Dao.getDevice(id, imei, start, base);
-			String param = "openState=打开课程,buyState=购买课程,extra=解锁课程,channel=打开渠道,firstTime=首次打开时间,lastTime=最近打开时间";
+			String param = "openState=打开课程,buyState=购买课程,extra=解锁课程,channel=打开渠道,"
+					+ "firstTime=首次打开,lastTime=最近打开,reward=红包";
 			String[] params = param.split(","); 
 			String body = "查询结果:"+list.size();
 			for(int m=0;m<list.size();m++){
@@ -108,8 +109,12 @@ public class Html_editdevice extends Html {
 									Field fd = Device.class.getDeclaredField(argName);
 									fd.setAccessible(true);
 									String idStr = argName+device.getId();
+									String value=String.valueOf(fd.get(device));
+									if("reward".equals(argName)) {
+										value=fd.get(device).toString().replaceAll("\"", "&quot;");
+									}
 									body += "<tr><td>"+arg+"</td><td><input type=\"text\" data-clear-btn=\"false\" id=\""
-									+idStr+"\" value=\""+fd.get(device)+"\" onchange=\"$('#btn"+idStr
+									+idStr+"\" value=\""+value+"\" onchange=\"$('#btn"+idStr
 									+"').show();\" /><a href=\"#\"  id=\"btn"+idStr+"\" onclick=\"update('"
 									+argName+"', '"+device.getId()+"');$(this).hide();\" data-role=\"button\" data-icon=\"check\""
 									+ " data-iconpos=\"notext\" data-theme=\"c\" data-inline=\"true\" "

@@ -116,14 +116,6 @@ public class CMD204 implements ICMD {
 					mc.setApplePay(mc.getApplePay() + money);					
 					count.setTotalPay(count.getTotalPay() + money);
 					count.setApplePay(count.getApplePay() + money);				
-					if(Global.getInt(device.getVersion()) >= 7){
-						count.add奇偶付费(money, device.getId(), "苹果支付");						
-					}else{
-						count.add奇偶付费(money, 0, "苹果支付");
-					}
-					//device.checkPrice(device,lesson, money, pay.getId());
-					device.使用红包(money, count);
-					
 					ce.setTotalPay(ce.getTotalPay() + money);
 					ce.setApplePay(ce.getApplePay() + money);
 					Dao.save(ce);

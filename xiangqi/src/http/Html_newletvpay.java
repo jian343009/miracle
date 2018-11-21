@@ -90,7 +90,7 @@ public class Html_newletvpay extends Html{
 					count.add奇偶付费((int)money, 0, "苹果支付");
 				}
 				wd.checkPrice(wd,lesson, (int)money, pay.getId());
-				wd.使用红包((int)money, count);
+				wd.使用红包((int)money,lesson, count);
 				
 				Dao.save(count);
 				Dao.save(ce);
